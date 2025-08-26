@@ -604,20 +604,8 @@
       <!-- 2-3. メニュー一覧（KAMUI CODE ドキュメント） -->
       <section class="doc-section" id="menu" data-cat="2" data-cat-name="UI">
         <h2>メニュー一覧</h2>
-        <p>KAMUI CODE ドキュメントのメニュー構造をJSON（data/kamui-doc-menus.json）で管理し、下表と階層図に自動展開します。</p>
+        <p>KAMUI CODE ドキュメントのメニュー構造をJSON（data/kamui-doc-menus.json）で管理し、下表に自動展開します。</p>
         <div id="docMenuMessage" class="doc-meta"></div>
-        <div id="docMenuMermaidWrap" class="mermaid-wrapper" style="display:none;">
-          <div class="mermaid" id="docMenuMermaid"></div>
-          <div class="mermaid-caption">図: メニュー階層（MCPプレイリスト > MCPカタログ）</div>
-        </div>
-        <div id="docMenuMermaidWrapCatalog" class="mermaid-wrapper" style="display:none; margin-top: 12px;">
-          <div class="mermaid" id="docMenuMermaidCatalog"></div>
-          <div class="mermaid-caption">図: MCPカタログ 階層（pathから生成）</div>
-        </div>
-        <div id="docMenuMermaidWrapPlaylist" class="mermaid-wrapper" style="display:none; margin-top: 12px;">
-          <div class="mermaid" id="docMenuMermaidPlaylist"></div>
-          <div class="mermaid-caption">図: MCPプレイリスト 階層（pathから生成）</div>
-        </div>
         <div style="overflow:auto; max-height: 420px; border: 1px solid var(--border); border-radius: 8px;">
           <table class="menu-table" id="docMenuTable">
             <thead>
@@ -722,10 +710,6 @@
             <thead></thead>
             <tbody></tbody>
           </table>
-        </div>
-        <div id="mcpMermaidWrap" class="mermaid-wrapper" style="display:none; margin-top: 12px;">
-          <div class="mermaid" id="mcpMermaid"></div>
-          <div class="mermaid-caption">図: 階層構造（選択中の種別/カテゴリ）</div>
         </div>
         <!-- ローカルフォールバック（Pagesでは外部JSONを使用） -->
         <script type="application/json" id="mcpPlaylistsInline"></script>
@@ -1780,35 +1764,7 @@ flowchart LR
       const catalogs = await loadJson('./data/mcp_catalog.json', 'mcpCatalogInline', [
         { category:'creative', title:'Creative Servers', url:'https://docs.example.com/catalog/creative', description:'クリエイティブ領域のMCPサーバーカタログ' }
       ]);
-
-      function buildHierarchyMermaid(items, rootLabel){
-        const wrap = document.getElementById('mcpMermaidWrap');
-        const mer = document.getElementById('mcpMermaid');
-        if (!wrap || !mer || !window.mermaid) return;
-        const nodes = new Set();
-        const edges = [];
-        const rootId = 'ROOT_MCP';
-        nodes.add(`${rootId}((${rootLabel}))`);
-        function addPath(p){
-          if (!p) return;
-          const parts = p.replace(/^\/+|\/+$/g,'').split('/').filter(Boolean);
-          let prev = rootId;
-          let acc = '';
-          parts.forEach(part => {
-            acc = acc ? acc + '_' + part : part;
-            const id = acc.replace(/[^a-zA-Z0-9_]/g,'_');
-            const label = part;
-            nodes.add(`${id}["${label.replace(/"/g,'\\"')}"]`);
-            edges.push(`${prev} --> ${id}`);
-            prev = id;
-          });
-        }
-        items.forEach(it => addPath(it.path));
-        const graph = `flowchart LR\n  %% auto-generated hierarchy\n  ${Array.from(nodes).join('\n  ')}\n  ${edges.join('\n  ')}`;
-        mer.textContent = graph;
-        wrap.style.display = 'block';
-        try { mermaid.init(undefined, [mer]); } catch(_) {}
-      }
+      // 階層図（種別/カテゴリ）は非表示方針のため削除
 
       function render(){
         if (!thead || !tbody) return;
@@ -1826,7 +1782,7 @@ flowchart LR
             </tr>`).join('');
           tbody.innerHTML = rows || `<tr><td colspan="4">該当するプレイリストがありません。</td></tr>`;
           if (msg) msg.textContent = 'MCPプレイリスト（カテゴリ別）';
-          buildHierarchyMermaid(filtered, 'MCP Playlist');
+          // 階層図非表示
         } else {
           thead.innerHTML = `<tr><th>ページ</th><th>URL</th><th>説明</th></tr>`;
           const filtered = catalogs.filter(x=>x.category===cat);
@@ -1838,7 +1794,7 @@ flowchart LR
             </tr>`).join('');
           tbody.innerHTML = rows || `<tr><td colspan="3">該当するカタログページがありません。</td></tr>`;
           if (msg) msg.textContent = 'MCPカタログ（カテゴリ別）';
-          buildHierarchyMermaid(filtered, 'MCP Catalog');
+          // 階層図非表示
         }
       }
 
@@ -2153,57 +2109,7 @@ flowchart LR
               <td>${escapeHtml(it.description||'')}</td>
             </tr>`).join('');
 
-          // Mermaid 階層図
-          const wrap = document.getElementById('docMenuMermaidWrap');
-          const mer = document.getElementById('docMenuMermaid');
-          if (wrap && mer && window.mermaid) {
-            const idSafe = s => (s||'').replace(/[^a-zA-Z0-9_]/g,'_');
-            const nodes = new Set();
-            let edges = '';
-            const byId = new Map(allItems.map(it=>[it.id,it]));
-            allItems.forEach(it => {
-              const box = it.type === 'group' ? '((' + (it.label||it.id) + '))' : '["' + (it.label||it.id).replace(/"/g,'\\"') + '"]';
-              nodes.add(`${idSafe(it.id)}${box}`);
-              if (it.parentId && byId.has(it.parentId)) {
-                edges += `  ${idSafe(it.parentId)} --> ${idSafe(it.id)}\n`;
-              }
-            });
-            const graph = `flowchart TD\n  %% auto-generated from kamui-doc-menus.json\n  ${Array.from(nodes).join('\n  ')}\n${edges}`;
-            mer.textContent = graph;
-            wrap.style.display = 'block';
-            try { mermaid.init(undefined, [mer]); } catch(_) {}
-          }
-
-          // 追記: MCPカタログ/プレイリストの階層図もここで生成
-          async function fetchJson(url, fallback){
-            if (location.protocol !== 'file:') {
-              try { const r = await fetch(url, { cache:'no-cache' }); if (r.ok) return await r.json(); } catch(_) {}
-            }
-            return Array.isArray(fallback)? fallback : [];
-          }
-          function buildHierarchy(items, rootLabel, wrapId, merId){
-            const w = document.getElementById(wrapId); const m = document.getElementById(merId);
-            if (!w || !m || !window.mermaid) return;
-            const nodes = new Set(); const edges = [];
-            const rootId = rootLabel.replace(/\s+/g,'_');
-            nodes.add(`${rootId}((${rootLabel}))`);
-            const addPath = (p)=>{
-              if (!p) return; const parts = p.replace(/^\/+|\/+$/g,'').split('/').filter(Boolean);
-              let prev = rootId; let acc = '';
-              parts.forEach(part => { acc = acc ? acc+'_'+part : part; const id = acc.replace(/[^a-zA-Z0-9_]/g,'_'); nodes.add(`${id}["${part.replace(/"/g,'\\"')}"]`); edges.push(`${prev} --> ${id}`); prev = id; });
-            };
-            items.forEach(it => addPath(it.path));
-            const graph = `flowchart LR\n  ${Array.from(nodes).join('\n  ')}\n  ${edges.join('\n  ')}`;
-            m.textContent = graph; w.style.display = 'block'; try { mermaid.init(undefined, [m]); } catch(_) {}
-          }
-          const catalogItems = await fetchJson('./data/mcp_catalog.json', [
-            { category:'creative', title:'Imagen4 Ultra (T2I)', path:'/catalog/id/t2i/fal/imagen4/ultra' }
-          ]);
-          const playlistItems = await fetchJson('./data/mcp_playlists.json', [
-            { category:'business', name:'Requirement', path:'/playlist/id/requirement' }
-          ]);
-          buildHierarchy(catalogItems, 'MCP Catalog', 'docMenuMermaidWrapCatalog', 'docMenuMermaidCatalog');
-          buildHierarchy(playlistItems, 'MCP Playlist', 'docMenuMermaidWrapPlaylist', 'docMenuMermaidPlaylist');
+          // 階層図の生成は非表示要望により削除
         } catch (e) { console.warn('renderKamuiDocMenus failed', e); }
       })();
 
