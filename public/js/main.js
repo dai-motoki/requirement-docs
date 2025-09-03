@@ -710,6 +710,74 @@ function initContextMenu() {
   });
 }
 
+// メニュー一覧の動的生成
+async function initDocMenuTable() {
+  const menuTable = document.getElementById('docMenuTable');
+  if (!menuTable) return;
+  
+  const tbody = menuTable.querySelector('tbody');
+  const messageDiv = document.getElementById('docMenuMessage');
+  
+  try {
+    let menuData = [];
+    
+    // JSONファイルから読み込み
+    try {
+      const res = await fetch('/data/kamui-doc-menus.json', { cache: 'no-cache' });
+      if (res.ok) {
+        menuData = await res.json();
+      }
+    } catch (e) {
+      console.log('JSONファイルの読み込みに失敗しました:', e);
+    }
+    
+    // データが取得できない場合はフォールバック
+    if (!Array.isArray(menuData) || menuData.length === 0) {
+      // インラインフォールバックデータ
+      menuData = [
+        { id:'home', label:'ホーム', type:'menu', path:'/', parentId:null, order:0, description:'KAMUI CODE ドキュメントのホーム' },
+        { id:'welcome', label:'はじめまして', type:'menu', path:'/welcome', parentId:null, order:0.2, description:'初めての方向けの案内' },
+        { id: 'mcp-playlist', label:'MCPプレイリスト', type:'group', path:'/playlist', parentId:null, order:1, description:'MCPサーバーURLのプレイリスト（最上位）' },
+        { id: 'playlist-all', label:'プレイリスト一覧', type:'menu', path:'/playlist/all', parentId:'mcp-playlist', order:1.01, description:'プレイリストIDの一覧と検索' },
+        { id: 'playlist-creative', label:'プレイリスト（クリエイティブ）', type:'menu', path:'/playlist/creative', parentId:'mcp-playlist', order:1.10, description:'クリエイティブ向けプレイリスト' },
+        { id: 'playlist-development', label:'プレイリスト（開発）', type:'menu', path:'/playlist/development', parentId:'mcp-playlist', order:1.20, description:'開発向けプレイリスト' },
+        { id: 'playlist-business', label:'プレイリスト（ビジネス）', type:'menu', path:'/playlist/business', parentId:'mcp-playlist', order:1.30, description:'ビジネス向けプレイリスト' },
+        { id: 'mcp-catalog', label:'MCPカタログ', type:'group', path:'/catalog', parentId:null, order:2, description:'MCPサーバー/パッケージのカタログ' },
+        { id: 'catalog-all', label:'カタログ一覧', type:'menu', path:'/catalog/all', parentId:'mcp-catalog', order:2.01, description:'カタログIDの一覧と検索' },
+        { id: 'catalog-creative', label:'カタログ（クリエイティブ）', type:'menu', path:'/catalog/creative', parentId:'mcp-catalog', order:2.10, description:'クリエイティブ領域のカタログ' },
+        { id: 'catalog-development', label:'カタログ（開発）', type:'menu', path:'/catalog/development', parentId:'mcp-catalog', order:2.20, description:'開発領域のカタログ' },
+        { id: 'catalog-business', label:'カタログ（ビジネス）', type:'menu', path:'/catalog/business', parentId:'mcp-catalog', order:2.30, description:'ビジネス領域のカタログ' }
+      ];
+    }
+    
+    if (menuData.length > 0) {
+      tbody.innerHTML = ''; // 既存の行をクリア
+      menuData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.label || ''}</td>
+          <td>${item.id || ''}</td>
+          <td>${item.type || ''}</td>
+          <td>${item.path || ''}</td>
+          <td>${item.parentId || ''}</td>
+          <td>${item.order || ''}</td>
+          <td>${item.description || ''}</td>
+        `;
+        tbody.appendChild(row);
+      });
+      
+      if (messageDiv) {
+        messageDiv.textContent = `メニュー項目: ${menuData.length}件`;
+      }
+    }
+  } catch (error) {
+    console.error('メニューテーブルの初期化エラー:', error);
+    if (messageDiv) {
+      messageDiv.textContent = 'メニューデータの読み込みに失敗しました。';
+    }
+  }
+}
+
 // 初期化
 document.addEventListener('DOMContentLoaded', () => {
   initUIFlow();
@@ -718,4 +786,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initClientSamples();
   initImageModals();
   initContextMenu();
+  initDocMenuTable();
 });

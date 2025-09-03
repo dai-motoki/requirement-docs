@@ -9,6 +9,7 @@
     クリエイティブ、開発、ビジネスの3領域を横断し、上位のベースURL配下に各サーバーのエンドポイントを階層的に配置します。
     本書は、KAMUI CODE のコンセプト、エンドポイント設計、サーバーカタログ、使い方、および設定ファイル（mcp/config.json）と
     パッケージング方針を整理し、GitHub Pages で公開できる単一HTMLのドキュメントとしてまとめたものです。
+  image: /images/kamui-gradient-soft-2.png
 
 - id: pricing
   category: 6
@@ -126,8 +127,6 @@
       name: kamui-v2-5-white-pastel.png
     - path: /images/kamui-white-1.png
       name: kamui-white-1.png
-    - path: /images/kamui-white-2.png
-      name: kamui-white-2.png
     - path: /images/kamui-gradient-soft-1.png
       name: kamui-gradient-soft-1.png（淡い色調＋ノートPC版1）
     - path: /images/kamui-gradient-soft-2.png

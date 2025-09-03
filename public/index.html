@@ -154,17 +154,6 @@
   
   
   
-  <div class="hero" id="docHero">
-    <img src="/images/kamui-white-2.png" alt="KAMUI CODE Hero Image">
-  </div>
-  
-  
-  
-  
-  <div class="section-image">
-    <img src="/images/mcp_venn_diagram.png" alt="MCP Venn Diagram">
-  </div>
-  
   
   
   
@@ -176,6 +165,12 @@
 クリエイティブ、開発、ビジネスの3領域を横断し、上位のベースURL配下に各サーバーのエンドポイントを階層的に配置します。
 本書は、KAMUI CODE のコンセプト、エンドポイント設計、サーバーカタログ、使い方、および設定ファイル（mcp/config.json）と
 パッケージング方針を整理し、GitHub Pages で公開できる単一HTMLのドキュメントとしてまとめたものです。
+    
+    
+    
+    <div class="section-image">
+      <img src="/images/kamui-gradient-soft-2.png" alt="1. 概要">
+    </div>
     
     
     
@@ -212,6 +207,8 @@
     
     
       代表的なプランの比較です。用途と負荷に応じて選択してください。
+    
+    
     
     
     
@@ -330,6 +327,8 @@
     
     
     
+    
+    
       <div id="docMenuTableMessage" class="doc-meta"></div>
 <div style="overflow:auto; max-height: 420px; border: 1px solid var(--border); border-radius: 8px;">
   <table class="menu-table" id="docMenuTable">
@@ -408,6 +407,8 @@
     
     
     
+    
+    
       <div class="media-grid">
   
   <div class="media-item clickable-img" data-path="/images/kamui-white-2-fullscreen-1.png">
@@ -469,6 +470,8 @@
     
     
     
+    
+    
       <div class="flow-wrapper" id="uiFlow">
   <div class="flow-controls">
     <strong>UI遷移図</strong>
@@ -515,6 +518,8 @@
     
     
       以下は同梱の参考デザイン画像です（画像を右クリックして相対パスをコピーできます）。
+    
+    
     
     
     
@@ -607,13 +612,6 @@
     </div>
   </div>
   
-  <div class="media-item clickable-img" data-path="/images/kamui-white-2.png">
-    <img class="media-thumbnail" src="/images/kamui-white-2.png" alt="kamui-white-2.png" />
-    <div class="media-info">
-      <div class="media-name">kamui-white-2.png</div>
-    </div>
-  </div>
-  
   <div class="media-item clickable-img" data-path="/images/kamui-gradient-soft-1.png">
     <img class="media-thumbnail" src="/images/kamui-gradient-soft-1.png" alt="kamui-gradient-soft-1.png（淡い色調＋ノートPC版1）" />
     <div class="media-info">
@@ -684,6 +682,8 @@
     
     
     
+    
+    
       <div class="section-image" style="max-width: 920px; margin-bottom: 10px;">
   <img src="/images/kamui-white-2.png" alt="UI参考（ギャラリー風）" />
 </div>
@@ -738,6 +738,8 @@
       実URL構造は提供JSONの<code>mcpServers[*].url</code>に準拠します。ベースドメインは <code>https://{BASE_URL}</code> で、
 先頭にカテゴリ（例: <code>t2i</code>, <code>i2i</code>, <code>t2v</code>, <code>i2v</code>, <code>v2v</code>, <code>r2v</code>, <code>t2s</code>, <code>t2m</code>, <code>v2a</code>, <code>uploader</code>, <code>train</code>,
 <code>video-analysis</code>, <code>requirement</code>, <code>storyboard</code>）が続き、ベンダ・モデル・モード等が後続します。
+    
+    
     
     
     
@@ -915,6 +917,8 @@ flowchart LR
     
     
     
+    
+    
       <div class="card-grid" id="serverCards">
   
 </div>
@@ -956,6 +960,8 @@ flowchart LR
     
     
     
+    
+    
       <div class="card-grid" id="packageCards">
   
 </div>
@@ -986,6 +992,8 @@ flowchart LR
     
     
       HTTPダイレクト利用の例（curl）。実URLと認証ヘッダは環境に合わせて置換してください。
+    
+    
     
     
     
@@ -1147,6 +1155,8 @@ curl -X POST &#34;{BASE_URL}/api/dev/code/v1/analyze&#34; \
     
     
     
+    
+    
   </section>
   
   <section class="doc-section" id="nonfunctional" data-cat="3" data-cat-name="要件">
@@ -1190,10 +1200,14 @@ curl -X POST &#34;{BASE_URL}/api/dev/code/v1/analyze&#34; \
     
     
     
+    
+    
   </section>
   
   <section class="doc-section" id="design-requirements" data-cat="3" data-cat-name="要件">
     <h2>10. デザイン要件定義</h2>
+    
+    
     
     
     
@@ -1451,6 +1465,8 @@ curl -X POST &#34;{BASE_URL}/api/dev/code/v1/analyze&#34; \
     
     
     
+    
+    
       <pre class="code"><code>map[content:{
   &#34;mcpServers&#34;: {
     &#34;kamui-creative&#34;: {
@@ -1577,6 +1593,8 @@ curl -X POST &#34;{BASE_URL}/api/dev/code/v1/analyze&#34; \
     
     
     
+    
+    
   </section>
   
   <section class="doc-section" id="schedule" data-cat="6" data-cat-name="スケジュール">
@@ -1584,6 +1602,8 @@ curl -X POST &#34;{BASE_URL}/api/dev/code/v1/analyze&#34; \
     
     
       「渋谷猫カフェ - 要件定義書」の開発ガントチャートを参考に、本プロジェクトの概略スケジュールを示します。
+    
+    
     
     
     
@@ -1673,6 +1693,8 @@ gantt
     
     
     
+    
+    
       
         <div class="mermaid-wrapper">
   <div class="mermaid">
@@ -1736,6 +1758,8 @@ flowchart LR
 <li><strong>メンテナンスウィンドウ</strong>: 定期的なサービス更新時間の設定。</li>
 </ul>
 
+    
+    
     
     
     
@@ -1867,6 +1891,8 @@ flowchart LR
     
     
     
+    
+    
   </section>
   
   <section class="doc-section" id="appendix" data-cat="8" data-cat-name="付録">
@@ -1874,6 +1900,8 @@ flowchart LR
     
     
       プレースホルダ（{BASE_URL}、<TOKEN> など）は環境に合わせて置換してください。実エンドポイント/仕様は導入時の合意に基づき最新へ更新します。
+    
+    
     
     
     

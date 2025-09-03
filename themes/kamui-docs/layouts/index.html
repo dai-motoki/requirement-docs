@@ -9,13 +9,6 @@
   </div>
   {{ end }}
   
-  <!-- 概要セクション -->
-  {{ if .Params.overview }}
-  <div class="section-image">
-    <img src="{{ .Params.overview.image }}" alt="{{ .Params.overview.alt }}">
-  </div>
-  {{ end }}
-  
   <!-- コンテンツセクション -->
   {{ range .Site.Data.sections }}
   <section class="doc-section" id="{{ .id }}" data-cat="{{ .category }}" data-cat-name="{{ .category_name }}">
@@ -23,6 +16,12 @@
     
     {{ if .content }}
       {{ .content | markdownify }}
+    {{ end }}
+    
+    {{ if .image }}
+    <div class="section-image">
+      <img src="{{ .image }}" alt="{{ .title }}">
+    </div>
     {{ end }}
     
     {{ if .table }}
