@@ -52,6 +52,14 @@
       {{ partial "mermaid" .mermaid }}
     {{ end }}
     
+    {{ if .additional_content }}
+      {{ .additional_content | markdownify }}
+    {{ end }}
+    
+    {{ if .custom_html }}
+      {{ .custom_html | safeHTML }}
+    {{ end }}
+    
     {{ if .gantt }}
       {{ partial "gantt" . }}
     {{ end }}

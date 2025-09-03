@@ -19,8 +19,7 @@ requirement-docs/
 │   ├── mcp_catalog.json
 │   ├── mcp_playlists.json
 │   └── pages.yaml
-├── static/
-│   └── images/            # 全ての画像ファイル
+
 ├── themes/kamui-docs/      # カスタムテーマ
 │   ├── theme.yaml         # テーマ設定
 │   ├── layouts/
@@ -49,6 +48,19 @@ requirement-docs/
 │       │   └── main.css      # 全てのスタイル
 │       └── js/
 │           └── main.js       # 全てのJavaScript
+├── static/
+│   ├── images/             # 全ての画像ファイル
+│   │   ├── journey-discover.png
+│   │   ├── journey-explore.png
+│   │   ├── journey-compare.png
+│   │   ├── journey-trial.png
+│   │   ├── journey-purchase.png
+│   │   └── ... (その他の画像)
+│   └── data/              # JSONデータファイル
+│       ├── kamui-doc-menus.json
+│       ├── mcp_catalog.json
+│       ├── mcp_playlists.json
+│       └── menus.json
 └── public/                   # ビルド出力ディレクトリ
 ```
 
@@ -63,6 +75,7 @@ requirement-docs/
 - ✅ **検索機能** - ヘッダーの検索バー
 - ✅ **表示切り替え** - カード/リスト表示の切り替え
 - ✅ **レスポンシブデザイン** - モバイル対応
+- ✅ **カスタマージャーニーマップ** - KAMUI CODE利用時のユーザー体験を可視化
 
 ### 2. インタラクティブ要素
 - ✅ **UI遷移図** - ズーム可能なインタラクティブフロー図
@@ -82,6 +95,7 @@ requirement-docs/
 - ✅ **YAML形式のデータ** - `data/sections.yaml`で全コンテンツを管理
 - ✅ **JSONフォールバック** - オフライン時のローカルデータ表示
 - ✅ **動的コンテンツ生成** - JavaScriptによる動的要素
+- ✅ **MCP仕様書リンク** - Model Context Protocol公式仕様書への参照
 
 ## 使い方
 
@@ -156,6 +170,14 @@ additional_mermaid:
         A --> B
 ```
 
+### カスタムHTML
+```yaml
+custom_html: |
+  <div class="custom-content">
+    <!-- カスタムHTMLコンテンツ -->
+  </div>
+```
+
 ### デザイン仕様
 ```yaml
 design_specs:
@@ -186,12 +208,26 @@ git push
 
 Hugo対応の設定で自動デプロイが可能です。
 
+## 最新の更新内容
+
+### 2025年9月3日
+- ✅ カスタマージャーニーマップを追加（UI・UXセクション）
+  - 矢印型のフェーズデザイン
+  - KAMUI CODE利用時のユーザー体験を可視化
+  - 各アクションにアイコン画像を配置
+- ✅ 付録にMCP公式仕様書へのリンクを追加
+- ✅ メニュー一覧テーブルの動的生成を実装
+- ✅ メイン画像を `kamui-gradient-soft-2.png` に設定
+- ✅ 特定の画像の表示制御を実装
+
 ## 注意事項
 
 - 画像パスは `/images/` から始まる絶対パスを使用
 - Mermaid図は自動的に初期化されます
 - JavaScriptの動的機能は `main.js` に集約
 - CSSは `main.css` に全スタイルを記載
+- JSONデータは `static/data/` ディレクトリに配置
+- カスタムHTMLは `custom_html` フィールドで直接記述可能
 
 ## ライセンス
 

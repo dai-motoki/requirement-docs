@@ -51,9 +51,292 @@
         - 専用Discordサポート
         - API使用量分析ダッシュボード
 
+- id: customer-journey
+  category: 2
+  category_name: UI・UX
+  title: カスタマージャーニーマップ
+  content: |
+    ユーザーがKAMUI CODEを利用する際の典型的なジャーニーを示します。各フェーズでのユーザーの行動、思考、感情、タッチポイントを可視化しています。
+  custom_html: |
+    <div class="journey-map-container">
+      <style>
+        .journey-map-container {
+          background: #f8f9fa;
+          padding: 20px;
+          border-radius: 12px;
+          margin: 20px 0;
+        }
+        .journey-map {
+          background: white;
+          border-radius: 8px;
+          padding: 15px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .journey-phases {
+          display: flex;
+          margin-bottom: 15px;
+          position: relative;
+        }
+        .phase {
+          flex: 1;
+          text-align: center;
+          padding: 12px 30px 12px 20px;
+          font-weight: bold;
+          font-size: 14px;
+          color: white;
+          position: relative;
+          margin-right: -20px;
+          clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
+        }
+        .phase:first-child {
+          padding-left: 30px;
+          clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+        }
+        .phase:last-child {
+          margin-right: 0;
+          padding-right: 30px;
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%);
+        }
+        .phase.awareness { background: #8B5CF6; }
+        .phase.consideration { background: #3B82F6; }
+        .phase.adoption { background: #10B981; }
+        .journey-row {
+          display: flex;
+          align-items: stretch;
+          margin-bottom: 10px;
+        }
+        .journey-label {
+          width: 80px;
+          padding: 10px 8px;
+          font-weight: bold;
+          font-size: 12px;
+          background: #f1f3f5;
+          border-radius: 6px 0 0 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+        .journey-content {
+          flex: 1;
+          display: flex;
+          gap: 5px;
+          padding: 5px;
+        }
+        .journey-cell {
+          flex: 1;
+          background: white;
+          border: 1px solid #e9ecef;
+          border-radius: 6px;
+          padding: 10px;
+          text-align: center;
+          position: relative;
+          font-size: 11px;
+        }
+        .journey-cell.awareness { border-color: #DDD6FE; background: #FAF5FF; }
+        .journey-cell.consideration { border-color: #DBEAFE; background: #F0F9FF; }
+        .journey-cell.adoption { border-color: #D1FAE5; background: #F0FDF4; }
+        
+        .touchpoint-icon {
+          font-size: 24px;
+          margin-bottom: 5px;
+        }
+        .action-text {
+          font-size: 11px;
+          line-height: 1.4;
+        }
+        .action-image {
+          width: 40px;
+          height: 40px;
+          margin: 0 auto 8px;
+          opacity: 0.8;
+        }
+        .thought-bubble {
+          background: white;
+          border: 1px solid #dee2e6;
+          border-radius: 10px;
+          padding: 8px;
+          margin-top: 8px;
+          position: relative;
+          font-size: 10px;
+          line-height: 1.4;
+        }
+        .thought-bubble:before {
+          content: "";
+          position: absolute;
+          top: -5px;
+          left: 20px;
+          width: 10px;
+          height: 10px;
+          background: white;
+          border-top: 1px solid #dee2e6;
+          border-left: 1px solid #dee2e6;
+          transform: rotate(45deg);
+        }
+        .problem-point {
+          background: #FEF3C7;
+          padding: 8px;
+          border-radius: 6px;
+          margin-top: 5px;
+          font-size: 10px;
+          border: 1px solid #FDE68A;
+          line-height: 1.4;
+        }
+      </style>
+      
+      <div class="journey-map">
+        <!-- フェーズ -->
+        <div class="journey-phases">
+          <div class="phase awareness">認知・興味</div>
+          <div class="phase consideration">検討・評価</div>
+          <div class="phase adoption">導入・活用</div>
+        </div>
+        
+        <!-- 行動 -->
+        <div class="journey-row">
+          <div class="journey-label">行動</div>
+          <div class="journey-content">
+            <div class="journey-cell awareness">
+              <img src="/images/journey-discover.png" alt="発見" class="action-image">
+              <div class="action-text">KAMUIを発見</div>
+            </div>
+            <div class="journey-cell awareness">
+              <img src="/images/journey-explore.png" alt="機能確認" class="action-image">
+              <div class="action-text">機能を確認</div>
+            </div>
+            <div class="journey-cell consideration">
+              <img src="/images/journey-compare.png" alt="比較" class="action-image">
+              <div class="action-text">ツール比較</div>
+            </div>
+            <div class="journey-cell consideration">
+              <img src="/images/journey-trial.png" alt="試用" class="action-image">
+              <div class="action-text">無料試用</div>
+            </div>
+            <div class="journey-cell adoption">
+              <img src="/images/journey-purchase.png" alt="購入" class="action-image">
+              <div class="action-text">有料プラン購入</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- タッチポイント -->
+        <div class="journey-row">
+          <div class="journey-label">タッチ<br>ポイント</div>
+          <div class="journey-content">
+            <div class="journey-cell awareness">
+              <div class="touchpoint-icon">🔍</div>
+              <div class="action-text">検索・SNS</div>
+            </div>
+            <div class="journey-cell awareness">
+              <div class="touchpoint-icon">🌐</div>
+              <div class="action-text">公式サイト</div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="touchpoint-icon">📊</div>
+              <div class="action-text">比較サイト</div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="touchpoint-icon">💻</div>
+              <div class="action-text">管理画面</div>
+            </div>
+            <div class="journey-cell adoption">
+              <div class="touchpoint-icon">💳</div>
+              <div class="action-text">決済画面</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 思考 -->
+        <div class="journey-row">
+          <div class="journey-label">思考</div>
+          <div class="journey-content">
+            <div class="journey-cell awareness">
+              <div class="thought-bubble">
+                MCPツールを<br>探している
+              </div>
+            </div>
+            <div class="journey-cell awareness">
+              <div class="thought-bubble">
+                3領域対応が<br>魅力的
+              </div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="thought-bubble">
+                他社より<br>機能が豊富
+              </div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="thought-bubble">
+                使いやすくて<br>良さそう
+              </div>
+            </div>
+            <div class="journey-cell adoption">
+              <div class="thought-bubble">
+                業務効率が<br>上がりそう
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 感情 -->
+        <div class="journey-row">
+          <div class="journey-label">感情</div>
+          <div class="journey-content">
+            <div class="journey-cell awareness">
+              <div class="action-text">😐<br>好奇心</div>
+            </div>
+            <div class="journey-cell awareness">
+              <div class="action-text">😊<br>期待感</div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="action-text">🤔<br>慎重</div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="action-text">😄<br>満足</div>
+            </div>
+            <div class="journey-cell adoption">
+              <div class="action-text">🎉<br>確信</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 課題・機会 -->
+        <div class="journey-row">
+          <div class="journey-label">課題<br>機会</div>
+          <div class="journey-content">
+            <div class="journey-cell awareness">
+              <div class="problem-point">
+                SEO強化で<br>発見性向上
+              </div>
+            </div>
+            <div class="journey-cell awareness">
+              <div class="problem-point">
+                デモ動画で<br>理解促進
+              </div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="problem-point">
+                比較表を<br>充実化
+              </div>
+            </div>
+            <div class="journey-cell consideration">
+              <div class="problem-point">
+                チュートリアル<br>強化
+              </div>
+            </div>
+            <div class="journey-cell adoption">
+              <div class="problem-point">
+                決済手段の<br>多様化
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 - id: menu
   category: 2
-  category_name: UI
+  category_name: UI・UX
   title: メニュー一覧
   content: KAMUI CODE ドキュメントのメニュー構造をJSON（data/kamui-doc-menus.json）で管理し、下表に自動展開します。
   dynamic_table:
@@ -90,7 +373,7 @@
 
 - id: ui-flow
   category: 2
-  category_name: UI
+  category_name: UI・UX
   title: 3. UI遷移図
   content: ""
   flow_diagram:
@@ -101,7 +384,7 @@
 
 - id: ui
   category: 2
-  category_name: UI
+  category_name: UI・UX
   title: 4. UI/画面（参考デザイン画像）
   content: 以下は同梱の参考デザイン画像です（画像を右クリックして相対パスをコピーできます）。
   images:
@@ -140,7 +423,7 @@
 
 - id: mcp
   category: 2
-  category_name: UI
+  category_name: UI・UX
   title: MCPプレイリスト/カタログ
   content: MCPプレイリスト（上位）とMCPカタログをカテゴリ（クリエイティブ/開発/ビジネス）で切り替えて表示します。ボタンをクリックすると一覧（表）を表示します。
   mcp_section:
@@ -662,4 +945,24 @@
   category: 8
   category_name: 付録
   title: 16. 付録
-  content: プレースホルダ（{BASE_URL}、<TOKEN> など）は環境に合わせて置換してください。実エンドポイント/仕様は導入時の合意に基づき最新へ更新します。
+  content: |
+    プレースホルダ（{BASE_URL}、<TOKEN> など）は環境に合わせて置換してください。実エンドポイント/仕様は導入時の合意に基づき最新へ更新します。
+    
+    ## 参考資料
+    
+    ### Model Context Protocol (MCP) 仕様書
+    
+    KAMUI CODEが準拠している[Model Context Protocol (MCP) の公式仕様書](https://modelcontextprotocol.io/specification/2025-06-18)では、以下の内容が定義されています：
+    
+    - **基本プロトコル**: JSON-RPC 2.0メッセージフォーマット、ステートフルな接続、サーバー・クライアント間の機能ネゴシエーション
+    - **サーバー機能**: 
+      - Resources（コンテキストとデータ）
+      - Prompts（テンプレート化されたメッセージとワークフロー）
+      - Tools（AIモデルが実行する関数）
+    - **クライアント機能**:
+      - Sampling（サーバー主導のエージェント動作）
+      - Roots（URI/ファイルシステム境界の問い合わせ）
+      - Elicitation（ユーザーからの追加情報リクエスト）
+    - **セキュリティ原則**: ユーザーの同意と制御、データプライバシー、ツールの安全性、LLMサンプリング制御
+    
+    詳細は[MCP公式仕様書](https://modelcontextprotocol.io/specification/2025-06-18)をご参照ください。
