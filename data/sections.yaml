@@ -182,6 +182,74 @@
           border: 1px solid #FDE68A;
           line-height: 1.4;
         }
+        
+        /* ダークモード対応 */
+        [data-theme="dark"] .journey-map-container {
+          background: #1f2937;
+          color: #e5e7eb;
+        }
+        [data-theme="dark"] .journey-phases {
+          background: #111827;
+        }
+        [data-theme="dark"] .phase {
+          color: white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        [data-theme="dark"] .phase.awareness {
+          background: #6b46c1;
+        }
+        [data-theme="dark"] .phase.consideration {
+          background: #2563eb;
+        }
+        [data-theme="dark"] .phase.adoption {
+          background: #059669;
+        }
+        [data-theme="dark"] .journey-row {
+          background: #374151;
+          border-color: #4b5563;
+        }
+        [data-theme="dark"] .journey-label {
+          background: #1f2937;
+          color: #d1d5db;
+          border-color: #4b5563;
+        }
+        [data-theme="dark"] .journey-cell {
+          background: #1f2937;
+          border-color: #4b5563;
+          color: #e5e7eb;
+        }
+        [data-theme="dark"] .journey-cell.awareness {
+          background: rgba(139, 92, 246, 0.1);
+          border-color: #7c3aed;
+        }
+        [data-theme="dark"] .journey-cell.consideration {
+          background: rgba(59, 130, 246, 0.1);
+          border-color: #3b82f6;
+        }
+        [data-theme="dark"] .journey-cell.adoption {
+          background: rgba(16, 185, 129, 0.1);
+          border-color: #10b981;
+        }
+        [data-theme="dark"] .thought-bubble {
+          background: #374151;
+          border-color: #4b5563;
+          color: #e5e7eb;
+        }
+        [data-theme="dark"] .thought-bubble:before {
+          background: #374151;
+          border-color: #4b5563;
+        }
+        [data-theme="dark"] .problem-point {
+          background: rgba(251, 191, 36, 0.2);
+          border-color: #f59e0b;
+          color: #fbbf24;
+        }
+        [data-theme="dark"] .action-image {
+          filter: brightness(0.9);
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          padding: 4px;
+        }
       </style>
       
       <div class="journey-map">
