@@ -188,6 +188,213 @@ design_specs:
           color: "#000000"
 ```
 
+## ケース別の実装方法
+
+### 1. 新しいセクションを追加する場合
+
+`data/sections.yaml` に新しいエントリを追加：
+
+```yaml
+- id: new-section
+  category: 1
+  category_name: カテゴリ名
+  title: 新しいセクション
+  content: |
+    マークダウン形式のコンテンツ
+    - リスト項目1
+    - リスト項目2
+```
+
+### 2. 画像ギャラリーを追加する場合
+
+```yaml
+- id: gallery-section
+  category: 2
+  category_name: ギャラリー
+  title: 画像ギャラリー
+  content: ギャラリーの説明
+  images:
+    - path: /images/image1.png
+      name: 画像1
+    - path: /images/image2.png
+      name: 画像2
+```
+
+### 3. Mermaid図を追加する場合
+
+#### 単一のMermaid図
+```yaml
+- id: flow-section
+  title: フロー図
+  mermaid: |
+    graph TD
+      A[開始] --> B{条件分岐}
+      B -->|Yes| C[処理1]
+      B -->|No| D[処理2]
+```
+
+#### 複数のMermaid図
+```yaml
+- id: multi-diagram
+  title: 複数の図
+  additional_mermaid:
+    - type: architecture
+      content: |
+        graph TB
+          A --> B
+    - type: sequence
+      content: |
+        sequenceDiagram
+          A->>B: リクエスト
+```
+
+### 4. 動的テーブルを実装する場合
+
+```yaml
+- id: dynamic-table-section
+  title: 動的テーブル
+  dynamic_table:
+    id: myTable
+    headers:
+      - 列1
+      - 列2
+      - 列3
+    data_source: table-data
+```
+
+JavaScriptでデータを提供（`main.js`）：
+```javascript
+window.tableData = [
+  { col1: "値1", col2: "値2", col3: "値3" },
+  { col1: "値4", col2: "値5", col3: "値6" }
+];
+```
+
+### 5. カスタムHTMLを埋め込む場合
+
+```yaml
+- id: custom-section
+  title: カスタムセクション
+  custom_html: |
+    <div class="custom-container">
+      <style>
+        .custom-container {
+          background: #f0f0f0;
+          padding: 20px;
+        }
+        /* ダークモード対応 */
+        [data-theme="dark"] .custom-container {
+          background: #2a2a2a;
+          color: #e0e0e0;
+        }
+      </style>
+      <h3>カスタムコンテンツ</h3>
+      <p>任意のHTMLを記述できます</p>
+    </div>
+```
+
+### 6. カード形式のコンテンツを作成する場合
+
+```yaml
+- id: cards-section
+  title: サービス一覧
+  cards:
+    - title: サービスA
+      badges:
+        - 新機能
+        - おすすめ
+      content: サービスAの説明
+      details:
+        料金: 月額1,000円
+        利用制限: なし
+    - title: サービスB
+      badges:
+        - 人気
+      content: サービスBの説明
+```
+
+### 7. コードブロックを含める場合
+
+```yaml
+- id: code-section
+  title: 実装例
+  content: |
+    以下のコードを使用してください：
+    
+    ```javascript
+    function example() {
+      console.log("Hello, KAMUI!");
+    }
+    ```
+    
+    Pythonの例：
+    
+    ```python
+    def example():
+        print("Hello, KAMUI!")
+    ```
+```
+
+### 8. 条件付き表示を実装する場合
+
+`layouts/index.html` で条件分岐を追加：
+
+```html
+{{ if eq .id "special-section" }}
+  <!-- 特別な処理 -->
+{{ else }}
+  <!-- 通常の処理 -->
+{{ end }}
+```
+
+### 9. インタラクティブな要素を追加する場合
+
+YAMLでマークアップを定義：
+```yaml
+- id: interactive
+  custom_html: |
+    <div class="interactive-element">
+      <button id="myButton">クリック</button>
+      <div id="result"></div>
+    </div>
+```
+
+JavaScriptで動作を実装（`main.js`）：
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+  const button = document.getElementById('myButton');
+  if (button) {
+    button.addEventListener('click', () => {
+      document.getElementById('result').textContent = 'クリックされました！';
+    });
+  }
+});
+```
+
+### 10. レスポンシブ対応のレイアウトを作成する場合
+
+```yaml
+- id: responsive-section
+  custom_html: |
+    <style>
+      .responsive-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      @media (max-width: 768px) {
+        .responsive-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <div class="responsive-grid">
+      <div>項目1</div>
+      <div>項目2</div>
+      <div>項目3</div>
+    </div>
+```
+
 ## デプロイ
 
 ### GitHub Pages
