@@ -163,7 +163,7 @@
     pre.code code { color: var(--text); }
 
     /* カード（サーバーカタログ） */
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+    .card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
     .card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.16); display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.22); border-color: color-mix(in srgb, var(--border) 40%, var(--text) 60%); }
     .card::after { content: ""; position: absolute; inset: 0; border-radius: 16px; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04); }
@@ -172,6 +172,11 @@
     .endpoint { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; color: var(--text-weak); }
     .endpoint-box { background: color-mix(in srgb, var(--input-bg) 70%, transparent); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
     .card ul { margin-left: 1.1em; }
+    /* チェック付きリスト（料金比較用） */
+    .checks { list-style: none; padding-left: 0; margin: 8px 0 0; }
+    .checks li { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; }
+    .checks li::before { content: '✔'; color: #22c55e; font-weight: 700; line-height: 1.2; }
+    .price-badge { display:inline-block; font-weight:700; font-size:.85rem; padding:4px 8px; border-radius:999px; border:1px solid var(--border); margin-bottom:6px; }
     .pastel { background: linear-gradient(180deg, var(--w2-top), var(--w2-bottom)); border: 1px solid var(--w2-border); }
     .pastel::before { content: ""; position: absolute; inset: -24px; background: url('./kamui-white-2.png') center/cover no-repeat; filter: blur(28px) saturate(1.05); opacity: 0.35; z-index: 0; }
     /* 個別色のティント（各カードに --card-hue を付与） */
@@ -409,7 +414,8 @@
       .doc-container { padding: 14px; }
       .media-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
       .media-thumbnail { height: 120px; }
-      .card-grid { grid-template-columns: 1fr; }
+      /* 横幅を絞っても3列を維持 */
+      .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .flow-viewport { height: 60vh; }
       .view-options { gap: 6px; }
       .btn-label, .theme-label { display: none; }
@@ -420,6 +426,14 @@
       .color-swatches { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
       .color-swatch { padding: 12px 8px; }
       .typo-item { padding: 12px; }
+    }
+    /* さらに狭い幅では2列へ */
+    @media (max-width: 640px) {
+      .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    /* ごく狭い幅では1列へ */
+    @media (max-width: 420px) {
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
   <!-- Mermaid.js -->
@@ -595,10 +609,54 @@
       <div class="hero" id="docHero">
         <img src="./kamui-docs-ui-pattern2-gradient.png" alt="KAMUI CODE トップ" />
       </div>
+      <div class="media-grid" style="margin-top: 20px;">
+        <div class="media-item clickable-img" data-path="./kamui-gradient-soft-1.png"><img class="media-thumbnail" src="./kamui-gradient-soft-1.png" alt="kamui-gradient-soft-1" /><div class="media-info"><div class="media-name">淡い色調＋ノートPC版1</div></div></div>
+        <div class="media-item clickable-img" data-path="./kamui-gradient-soft-2.png"><img class="media-thumbnail" src="./kamui-gradient-soft-2.png" alt="kamui-gradient-soft-2" /><div class="media-info"><div class="media-name">淡い色調＋ノートPC版2</div></div></div>
+      </div>
 
       <section class="doc-section" id="overview" data-cat="1" data-cat-name="イントロダクション">
         <h2>1. 概要</h2>
         <p>KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供するソリューションです。クリエイティブ、開発、ビジネスの3領域を横断し、上位のベースURL配下に各サーバーのエンドポイントを階層的に配置します。本書は、KAMUI CODE のコンセプト、エンドポイント設計、サーバーカタログ、使い方、および設定ファイル（mcp/config.json）とパッケージング方針を整理し、GitHub Pages で公開できる単一HTMLのドキュメントとしてまとめたものです。</p>
+      </section>
+
+      <section class="doc-section" id="pricing" data-cat="6" data-cat-name="利用">
+        <h2>料金モデル比較</h2>
+        <p>代表的なプランの比較です。用途と負荷に応じて選択してください。</p>
+        <div class="card-grid">
+          <div class="card pastel">
+            <div class="card-title">フリープラン</div>
+            <span class="price-badge">無料</span>
+            <ul class="checks">
+              <li>画像生成: 月30回まで</li>
+              <li>動画生成: 月10回まで</li>
+              <li>基本モデルのみアクセス</li>
+              <li>低優先度処理（待ち時間あり）</li>
+              <li>コミュニティサポート</li>
+            </ul>
+          </div>
+          <div class="card pastel">
+            <div class="card-title">従量課金</div>
+            <span class="price-badge">使った分だけ</span>
+            <ul class="checks">
+              <li>全て従量課金（原価+20%マージン）</li>
+              <li>中優先度処理（標準的な待ち時間）</li>
+              <li>メールサポート（48時間以内）</li>
+              <li>個人・小規模チーム利用向け</li>
+              <li>使った分だけの公平な料金システム</li>
+            </ul>
+          </div>
+          <div class="card pastel">
+            <div class="card-title">エンタープライズ</div>
+            <span class="price-badge">お問い合わせ</span>
+            <ul class="checks">
+              <li>全モデル無制限利用</li>
+              <li>最新モデル早期アクセス</li>
+              <li>最優先処理（即時）</li>
+              <li>専用Discordサポート</li>
+              <li>API使用量分析ダッシュボード</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <!-- 2-3. メニュー一覧（KAMUI CODE ドキュメント） -->
@@ -637,6 +695,12 @@
         
         <div class="section-image">
           <img src="./kamui-white-2.png" alt="コンセプト図" />
+        </div>
+        <div class="media-grid" style="margin-top: 20px;">
+          <div class="media-item clickable-img" data-path="./kamui-white-2-fullscreen-1.png"><img class="media-thumbnail" src="./kamui-white-2-fullscreen-1.png" alt="kamui-white-2-fullscreen-1" /><div class="media-info"><div class="media-name">フルスクリーンUI版1</div></div></div>
+          <div class="media-item clickable-img" data-path="./kamui-white-2-fullscreen-2.png"><img class="media-thumbnail" src="./kamui-white-2-fullscreen-2.png" alt="kamui-white-2-fullscreen-2" /><div class="media-info"><div class="media-name">フルスクリーンUI版2</div></div></div>
+          <div class="media-item clickable-img" data-path="./creative-tools-ui-1.png"><img class="media-thumbnail" src="./creative-tools-ui-1.png" alt="creative-tools-ui-1" /><div class="media-info"><div class="media-name">Creative Toolsクリック後UI版1</div></div></div>
+          <div class="media-item clickable-img" data-path="./creative-tools-ui-2.png"><img class="media-thumbnail" src="./creative-tools-ui-2.png" alt="creative-tools-ui-2" /><div class="media-info"><div class="media-name">Creative Toolsクリック後UI版2</div></div></div>
         </div>
       </section>
 
@@ -680,6 +744,12 @@
           <div class="media-item" data-path="./kamui-v2-5-white-pastel.png"><img class="media-thumbnail" src="./kamui-v2-5-white-pastel.png" alt="kamui-v2-5-white-pastel" /><div class="media-info"><div class="media-name">kamui-v2-5-white-pastel.png</div></div></div>
           <div class="media-item" data-path="./kamui-white-1.png"><img class="media-thumbnail" src="./kamui-white-1.png" alt="kamui-white-1" /><div class="media-info"><div class="media-name">kamui-white-1.png</div></div></div>
           <div class="media-item" data-path="./kamui-white-2.png"><img class="media-thumbnail" src="./kamui-white-2.png" alt="kamui-white-2" /><div class="media-info"><div class="media-name">kamui-white-2.png</div></div></div>
+          <div class="media-item" data-path="./kamui-gradient-soft-1.png"><img class="media-thumbnail" src="./kamui-gradient-soft-1.png" alt="kamui-gradient-soft-1" /><div class="media-info"><div class="media-name">kamui-gradient-soft-1.png（淡い色調＋ノートPC版1）</div></div></div>
+          <div class="media-item" data-path="./kamui-gradient-soft-2.png"><img class="media-thumbnail" src="./kamui-gradient-soft-2.png" alt="kamui-gradient-soft-2" /><div class="media-info"><div class="media-name">kamui-gradient-soft-2.png（淡い色調＋ノートPC版2）</div></div></div>
+          <div class="media-item" data-path="./kamui-white-2-fullscreen-1.png"><img class="media-thumbnail" src="./kamui-white-2-fullscreen-1.png" alt="kamui-white-2-fullscreen-1" /><div class="media-info"><div class="media-name">kamui-white-2-fullscreen-1.png（フルスクリーンUI版1）</div></div></div>
+          <div class="media-item" data-path="./kamui-white-2-fullscreen-2.png"><img class="media-thumbnail" src="./kamui-white-2-fullscreen-2.png" alt="kamui-white-2-fullscreen-2" /><div class="media-info"><div class="media-name">kamui-white-2-fullscreen-2.png（フルスクリーンUI版2）</div></div></div>
+          <div class="media-item" data-path="./creative-tools-ui-1.png"><img class="media-thumbnail" src="./creative-tools-ui-1.png" alt="creative-tools-ui-1" /><div class="media-info"><div class="media-name">creative-tools-ui-1.png（Creative Toolsクリック後UI版1）</div></div></div>
+          <div class="media-item" data-path="./creative-tools-ui-2.png"><img class="media-thumbnail" src="./creative-tools-ui-2.png" alt="creative-tools-ui-2" /><div class="media-info"><div class="media-name">creative-tools-ui-2.png（Creative Toolsクリック後UI版2）</div></div></div>
           <div class="media-item" data-path="./kamui-white-3.png"><img class="media-thumbnail" src="./kamui-white-3.png" alt="kamui-white-3" /><div class="media-info"><div class="media-name">kamui-white-3.png</div></div></div>
           <div class="media-item" data-path="./kamui-white-4.png"><img class="media-thumbnail" src="./kamui-white-4.png" alt="kamui-white-4" /><div class="media-info"><div class="media-name">kamui-white-4.png</div></div></div>
           <div class="media-item" data-path="./kamui-white-5.png"><img class="media-thumbnail" src="./kamui-white-5.png" alt="kamui-white-5" /><div class="media-info"><div class="media-name">kamui-white-5.png</div></div></div>
@@ -2014,12 +2084,11 @@ flowchart LR
             } catch(_) {}
           }
           if (!Array.isArray(items) || items.length===0) {
-            // inline fallback（Home/LP/Welcome + 2大カテゴリ + 各3カテゴリ）
+            // inline fallback（Home/Welcome + 2大カテゴリ + 各3カテゴリ）
             const inlineEl = document.getElementById('kamuiMenusInline');
             if (inlineEl && !inlineEl.textContent) {
               inlineEl.textContent = JSON.stringify([
                 { id:'home', label:'ホーム', type:'menu', path:'/', parentId:null, order:0, description:'KAMUI CODE ドキュメントのホーム' },
-                { id:'lp', label:'LP', type:'menu', path:'/lp', parentId:null, order:0.1, description:'ランディングページ' },
                 { id:'welcome', label:'はじめまして', type:'menu', path:'/welcome', parentId:null, order:0.2, description:'初めての方向けの案内' },
                 { id: 'mcp-playlist', label:'MCPプレイリスト', type:'group', path:'/playlist', parentId:null, order:1, description:'MCPサーバーURLのプレイリスト（最上位）' },
                 { id: 'playlist-all', label:'プレイリスト一覧', type:'menu', path:'/playlist/all', parentId:'mcp-playlist', order:1.01, description:'プレイリストIDの一覧と検索' },
@@ -2117,7 +2186,7 @@ flowchart LR
         const s = String(p||'');
         if (!s) return '';
         // 実ページとして存在する可能性が高いもののみリンク化
-        if (/^\/$|^\/lp$|^\/welcome$|^\/playlist\/?$|^\/playlist\/all$|^\/catalog\/?$|^\/catalog\/all$/.test(s)) {
+        if (/^\/$|^\/welcome$|^\/playlist\/?$|^\/playlist\/all$|^\/catalog\/?$|^\/catalog\/all$/.test(s)) {
           return `<a href="${escapeAttr(s)}">${escapeHtml(s)}</a>`;
         }
         return `<code>${escapeHtml(s)}</code>`;
@@ -2534,6 +2603,26 @@ flowchart LR
       });
       document.querySelectorAll('#docHero img').forEach((im) => {
         im.addEventListener('click', () => openImgModal(im.getAttribute('src'), im.getAttribute('alt')));
+      });
+      
+      // 新しく追加した画像もクリックで拡大対象（clickable-imgクラス）
+      document.querySelectorAll('.clickable-img img').forEach((im) => {
+        im.style.cursor = 'pointer';
+        im.addEventListener('click', () => {
+          const parent = im.closest('.media-item');
+          const title = parent?.querySelector('.media-name')?.textContent || im.getAttribute('alt');
+          openImgModal(im.getAttribute('src'), title);
+        });
+      });
+      
+      // コンセプト図の下に追加した画像も拡大対象
+      document.querySelectorAll('#domains .media-grid img').forEach((im) => {
+        im.style.cursor = 'pointer';
+        im.addEventListener('click', () => {
+          const parent = im.closest('.media-item');
+          const title = parent?.querySelector('.media-name')?.textContent || im.getAttribute('alt');
+          openImgModal(im.getAttribute('src'), title);
+        });
       });
       
       // 9. 右クリックメニューで相対パスコピー機能

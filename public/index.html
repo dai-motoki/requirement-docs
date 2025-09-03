@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta name="generator" content="Hugo 0.148.2"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=56817&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KAMUI CODE ドキュメント 要件定義</title>
+  <meta name="description" content="KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供するソリューションです">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        primaryColor: '#4a9eff',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#2a2a2a',
+        lineColor: '#ffffff',
+        textColor: '#ffffff',
+        taskTextColor: '#ffffff',
+        taskTextLightColor: '#ffffff',
+        taskFillColor: '#4a9eff',
+        taskBorderColor: '#93c5fd',
+        activeTaskBorderColor: '#93c5fd',
+        activeTaskColor: '#4a9eff',
+        doneTaskColor: '#4a9eff',
+        doneTaskBorderColor: '#93c5fd',
+        critBorderColor: '#93c5fd',
+        critColor: '#4a9eff',
+        todayLineColor: '#93c5fd',
+        gridColor: '#64748b',
+        tertiaryColor: '#2d2d2d',
+        sequenceNumberColor: '#ffffff',
+        signalColor: '#ffffff',
+        actorBorder: '#ffffff',
+        actorTextColor: '#ffffff',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#cbd5e1',
+        activationTextColor: '#ffffff',
+        edgeLabelBackground: '#0f172a',
+        secondaryColor: '#2d2d2d',
+        background: '#1a1a1a',
+        mainBkg: '#0f0f0f',
+        secondBkg: '#1a1a1a',
+        tertiaryColor: '#2d2d2d'
+      },
+      themeCSS: `
+        /* Ensure Gantt bars use unified blue tone inside SVG */
+        .gantt .task rect,
+        .gantt .task .task-bar,
+        .gantt .task-bar rect { fill: #4a9eff; stroke: #93c5fd; }
+        .gantt .task.active rect,
+        .gantt .task.done rect,
+        .gantt .task.crit rect { fill: #4a9eff; stroke: #93c5fd; }
+        .gantt .today { stroke: #93c5fd; stroke-width: 1.5px; }
+        .gantt .label text, .gantt text, .gantt .title text { fill: #ffffff; }
+      `,
+      gantt: {
+        numberSectionStyles: 6,
+        leftPadding: 200,
+        gridLineStartPadding: 400,
+        fontSize: 13,
+        sectionFontSize: 15,
+        fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
+        barHeight: 22,
+        barGap: 6,
+        topPadding: 50,
+        rightPadding: 150
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">KAMUI CODE ドキュメント 要件定義</div>
+    <div class="sidebar-subtitle" id="tocCount">目次</div>
+  </div>
+
+  <div class="folder-tree" id="folderTree">
+    <div class="tree-item">
+      <div class="tree-label selected" data-toggle="root">
+        <span class="tree-toggle expanded">▼</span>
+        <span class="tree-name">章構成</span>
+        <span class="tree-count" id="sectionCount">--</span>
+      </div>
+      <div class="tree-children expanded" id="tocList">
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-tags">
+    <div class="tags-title">クイックリンク</div>
+    <div class="tag-list">
+      <span class="tag" data-jump="#ui-flow">UI遷移</span>
+      <span class="tag" data-jump="#ui">UI/画面</span>
+      <span class="tag" data-jump="#functional">機能</span>
+      <span class="tag" data-jump="#nonfunctional">非機能</span>
+      <span class="tag" data-jump="#packaging">パッケージ</span>
+      <span class="tag" data-jump="#schedule">スケジュール</span>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-tags">
+      <div class="tags-title">テーマ</div>
+      <div class="view-options">
+        <button class="view-btn icon-btn active" id="themeDark">
+          <span class="btn-icon">🌙</span>
+          <span class="btn-label">ダーク</span>
+        </button>
+        <button class="view-btn icon-btn" id="themeLight">
+          <span class="btn-icon">☀️</span>
+          <span class="btn-label">ライト</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  <div class="main-content">
+    <div class="header-bar">
+  <button class="menu-btn icon-btn" id="toggleSidebar">
+    <span class="btn-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </span>
+  </button>
+  
+  <input type="text" class="search-bar" id="searchInput" placeholder="検索..." />
+  
+  <div class="view-options">
+    <span class="theme-label">表示:</span>
+    <button class="view-btn" id="viewCards">カード</button>
+    <button class="view-btn active" id="viewList">リスト</button>
+  </div>
+</div>
+
+    
+    <div class="doc-container" id="docContainer">
+      
+  <h1 class="doc-title">KAMUI CODE ドキュメント 要件定義</h1>
+  <div class="doc-meta">KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供するソリューションです</div>
+  
+  
+  
+  <div class="hero" id="docHero">
+    <img src="/images/kamui-white-2.png" alt="KAMUI CODE Hero Image">
+  </div>
+  
+  
+  
+  
+  <div class="section-image">
+    <img src="/images/mcp_venn_diagram.png" alt="MCP Venn Diagram">
+  </div>
+  
+  
+  
+  
+  <section class="doc-section" id="overview" data-cat="1" data-cat-name="イントロダクション">
+    <h2>1. 概要</h2>
+    
+    
+      KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供するソリューションです。
+クリエイティブ、開発、ビジネスの3領域を横断し、上位のベースURL配下に各サーバーのエンドポイントを階層的に配置します。
+本書は、KAMUI CODE のコンセプト、エンドポイント設計、サーバーカタログ、使い方、および設定ファイル（mcp/config.json）と
+パッケージング方針を整理し、GitHub Pages で公開できる単一HTMLのドキュメントとしてまとめたものです。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="pricing" data-cat="6" data-cat-name="利用">
+    <h2>料金モデル比較</h2>
+    
+    
+      代表的なプランの比較です。用途と負荷に応じて選択してください。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="card-grid">
+  
+  <div class="card pastel">
+    <div class="card-title">フリープラン</div>
+    
+    <span class="badge">無料</span>
+    
+    
+    
+    
+    <ul class="checks">
+      
+      <li>map[画像生成:月30回まで]</li>
+      
+      <li>map[動画生成:月10回まで]</li>
+      
+      <li>基本モデルのみアクセス</li>
+      
+      <li>低優先度処理（待ち時間あり）</li>
+      
+      <li>コミュニティサポート</li>
+      
+    </ul>
+    
+  </div>
+  
+  <div class="card pastel">
+    <div class="card-title">従量課金</div>
+    
+    <span class="badge">使った分だけ</span>
+    
+    
+    
+    
+    <ul class="checks">
+      
+      <li>全て従量課金（原価&#43;20%マージン）</li>
+      
+      <li>中優先度処理（標準的な待ち時間）</li>
+      
+      <li>メールサポート（48時間以内）</li>
+      
+      <li>個人・小規模チーム利用向け</li>
+      
+      <li>使った分だけの公平な料金システム</li>
+      
+    </ul>
+    
+  </div>
+  
+  <div class="card pastel">
+    <div class="card-title">エンタープライズ</div>
+    
+    <span class="badge">お問い合わせ</span>
+    
+    
+    
+    
+    <ul class="checks">
+      
+      <li>全モデル無制限利用</li>
+      
+      <li>最新モデル早期アクセス</li>
+      
+      <li>最優先処理（即時）</li>
+      
+      <li>専用Discordサポート</li>
+      
+      <li>API使用量分析ダッシュボード</li>
+      
+    </ul>
+    
+  </div>
+  
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="menu" data-cat="2" data-cat-name="UI">
+    <h2>メニュー一覧</h2>
+    
+    
+      KAMUI CODE ドキュメントのメニュー構造をJSON（data/kamui-doc-menus.json）で管理し、下表に自動展開します。
+    
+    
+    
+    
+    
+      <div id="docMenuTableMessage" class="doc-meta"></div>
+<div style="overflow:auto; max-height: 420px; border: 1px solid var(--border); border-radius: 8px;">
+  <table class="menu-table" id="docMenuTable">
+    <thead>
+      <tr>
+        
+        <th>ラベル</th>
+        
+        <th>ID</th>
+        
+        <th>種別</th>
+        
+        <th>パス</th>
+        
+        <th>親ID</th>
+        
+        <th>並び順</th>
+        
+        <th>説明</th>
+        
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script type="application/json" id="kamui-doc-menusInline"></script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="domains" data-cat="1" data-cat-name="イントロダクション">
+    <h2>2. コンセプトと対象領域</h2>
+    
+    
+      <ul>
+<li>クリエイティブ領域: 生成・編集・評価（画像/テキスト/ドキュメント等）。</li>
+<li>開発領域: コード生成/解析、リファクタリング、レビュー、ドキュメント化。</li>
+<li>ビジネス領域: 翻訳、要約、レポーティング、データ分析補助。</li>
+</ul>
+<p>上記領域を共通のプロトコルと設計原則で統一し、サーバー追加・差し替え・組合せを安定して行えることを目指します。</p>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="media-grid">
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-2-fullscreen-1.png">
+    <img class="media-thumbnail" src="/images/kamui-white-2-fullscreen-1.png" alt="フルスクリーンUI版1" />
+    <div class="media-info">
+      <div class="media-name">フルスクリーンUI版1</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-2-fullscreen-2.png">
+    <img class="media-thumbnail" src="/images/kamui-white-2-fullscreen-2.png" alt="フルスクリーンUI版2" />
+    <div class="media-info">
+      <div class="media-name">フルスクリーンUI版2</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/creative-tools-ui-1.png">
+    <img class="media-thumbnail" src="/images/creative-tools-ui-1.png" alt="Creative Toolsクリック後UI版1" />
+    <div class="media-info">
+      <div class="media-name">Creative Toolsクリック後UI版1</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/creative-tools-ui-2.png">
+    <img class="media-thumbnail" src="/images/creative-tools-ui-2.png" alt="Creative Toolsクリック後UI版2" />
+    <div class="media-info">
+      <div class="media-name">Creative Toolsクリック後UI版2</div>
+    </div>
+  </div>
+  
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="ui-flow" data-cat="2" data-cat-name="UI">
+    <h2>3. UI遷移図</h2>
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="flow-wrapper" id="uiFlow">
+  <div class="flow-controls">
+    <strong>UI遷移図</strong>
+    <div class="spacer"></div>
+    <button class="view-btn" id="flowZoomOut">-</button>
+    <button class="view-btn" id="flowZoomReset">100%</button>
+    <button class="view-btn" id="flowZoomIn">+</button>
+  </div>
+  <div class="flow-viewport" id="flowViewport">
+    <div class="flow-inner" id="flowInner" style="width: 1600px; height: 900px;">
+      <svg class="flow-svg" id="flowSvg" width="1600" height="900"></svg>
+      <div class="nodes-layer" id="flowNodes"></div>
+    </div>
+  </div>
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="ui" data-cat="2" data-cat-name="UI">
+    <h2>4. UI/画面（参考デザイン画像）</h2>
+    
+    
+      以下は同梱の参考デザイン画像です（画像を右クリックして相対パスをコピーできます）。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="media-grid">
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-docs-ui-pattern1-dark.png">
+    <img class="media-thumbnail" src="/images/kamui-docs-ui-pattern1-dark.png" alt="kamui-docs-ui-pattern1-dark.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-docs-ui-pattern1-dark.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-docs-ui-pattern2-gradient.png">
+    <img class="media-thumbnail" src="/images/kamui-docs-ui-pattern2-gradient.png" alt="kamui-docs-ui-pattern2-gradient.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-docs-ui-pattern2-gradient.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-docs-ui-pattern3-minimal.png">
+    <img class="media-thumbnail" src="/images/kamui-docs-ui-pattern3-minimal.png" alt="kamui-docs-ui-pattern3-minimal.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-docs-ui-pattern3-minimal.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-docs-ui-pattern4-cyberpunk.png">
+    <img class="media-thumbnail" src="/images/kamui-docs-ui-pattern4-cyberpunk.png" alt="kamui-docs-ui-pattern4-cyberpunk.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-docs-ui-pattern4-cyberpunk.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-docs-ui-pattern5-japanese.png">
+    <img class="media-thumbnail" src="/images/kamui-docs-ui-pattern5-japanese.png" alt="kamui-docs-ui-pattern5-japanese.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-docs-ui-pattern5-japanese.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-v2-1-dark-neonblue.png">
+    <img class="media-thumbnail" src="/images/kamui-v2-1-dark-neonblue.png" alt="kamui-v2-1-dark-neonblue.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-v2-1-dark-neonblue.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-v2-2-white-enterprise.png">
+    <img class="media-thumbnail" src="/images/kamui-v2-2-white-enterprise.png" alt="kamui-v2-2-white-enterprise.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-v2-2-white-enterprise.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-v2-3-split-darklight.png">
+    <img class="media-thumbnail" src="/images/kamui-v2-3-split-darklight.png" alt="kamui-v2-3-split-darklight.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-v2-3-split-darklight.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-v2-4-terminal-green.png">
+    <img class="media-thumbnail" src="/images/kamui-v2-4-terminal-green.png" alt="kamui-v2-4-terminal-green.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-v2-4-terminal-green.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-v2-5-white-pastel.png">
+    <img class="media-thumbnail" src="/images/kamui-v2-5-white-pastel.png" alt="kamui-v2-5-white-pastel.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-v2-5-white-pastel.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-1.png">
+    <img class="media-thumbnail" src="/images/kamui-white-1.png" alt="kamui-white-1.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-white-1.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-2.png">
+    <img class="media-thumbnail" src="/images/kamui-white-2.png" alt="kamui-white-2.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-white-2.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-gradient-soft-1.png">
+    <img class="media-thumbnail" src="/images/kamui-gradient-soft-1.png" alt="kamui-gradient-soft-1.png（淡い色調＋ノートPC版1）" />
+    <div class="media-info">
+      <div class="media-name">kamui-gradient-soft-1.png（淡い色調＋ノートPC版1）</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-gradient-soft-2.png">
+    <img class="media-thumbnail" src="/images/kamui-gradient-soft-2.png" alt="kamui-gradient-soft-2.png（淡い色調＋ノートPC版2）" />
+    <div class="media-info">
+      <div class="media-name">kamui-gradient-soft-2.png（淡い色調＋ノートPC版2）</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-3.png">
+    <img class="media-thumbnail" src="/images/kamui-white-3.png" alt="kamui-white-3.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-white-3.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-4.png">
+    <img class="media-thumbnail" src="/images/kamui-white-4.png" alt="kamui-white-4.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-white-4.png</div>
+    </div>
+  </div>
+  
+  <div class="media-item clickable-img" data-path="/images/kamui-white-5.png">
+    <img class="media-thumbnail" src="/images/kamui-white-5.png" alt="kamui-white-5.png" />
+    <div class="media-info">
+      <div class="media-name">kamui-white-5.png</div>
+    </div>
+  </div>
+  
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="mcp" data-cat="2" data-cat-name="UI">
+    <h2>MCPプレイリスト/カタログ</h2>
+    
+    
+      MCPプレイリスト（上位）とMCPカタログをカテゴリ（クリエイティブ/開発/ビジネス）で切り替えて表示します。ボタンをクリックすると一覧（表）を表示します。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="section-image" style="max-width: 920px; margin-bottom: 10px;">
+  <img src="/images/kamui-white-2.png" alt="UI参考（ギャラリー風）" />
+</div>
+<div class="view-options" style="margin: 8px 0 12px 0;">
+  <span class="theme-label">種別:</span>
+  <button class="view-btn" id="btnMcpPlaylist" aria-pressed="true">MCPプレイリスト</button>
+  <button class="view-btn" id="btnMcpCatalog">MCPカタログ</button>
+  <span class="spacer"></span>
+  <span class="theme-label">カテゴリ:</span>
+  <button class="view-btn" id="btnCatCreative">クリエイティブ</button>
+  <button class="view-btn" id="btnCatDevelopment">開発</button>
+  <button class="view-btn" id="btnCatBusiness">ビジネス</button>
+</div>
+<div id="mcpMessage" class="doc-meta"></div>
+<div style="overflow:auto; max-height: 480px; border: 1px solid var(--border); border-radius: 8px;">
+  <table class="menu-table" id="mcpTable">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script type="application/json" id="mcpPlaylistsInline"></script>
+<script type="application/json" id="mcpCatalogInline"></script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="architecture" data-cat="4" data-cat-name="アーキテクチャ">
+    <h2>5. アーキテクチャとエンドポイント設計</h2>
+    
+    
+      実URL構造は提供JSONの<code>mcpServers[*].url</code>に準拠します。ベースドメインは <code>https://{BASE_URL}</code> で、
+先頭にカテゴリ（例: <code>t2i</code>, <code>i2i</code>, <code>t2v</code>, <code>i2v</code>, <code>v2v</code>, <code>r2v</code>, <code>t2s</code>, <code>t2m</code>, <code>v2a</code>, <code>uploader</code>, <code>train</code>,
+<code>video-analysis</code>, <code>requirement</code>, <code>storyboard</code>）が続き、ベンダ・モデル・モード等が後続します。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="mermaid-wrapper">
+  <div class="mermaid">
+    graph TD
+  A[KAMUI CODE Base] --&gt; B[Creative Category]
+  A --&gt; C[Development Category]
+  A --&gt; D[Business Category]
+  B --&gt; E[t2i - Text to Image]
+  B --&gt; F[i2i - Image to Image]
+  B --&gt; G[t2v - Text to Video]
+  C --&gt; H[Code Generation]
+  C --&gt; I[Code Analysis]
+  D --&gt; J[Translation]
+  D --&gt; K[Summarization]
+
+  </div>
+</div>
+
+    
+    
+    
+    
+    
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+graph TB
+    subgraph &#34;クライアント層&#34;
+        C1[MCPクライアント]
+        C2[HTTPクライアント]
+        C3[SDK/ライブラリ]
+    end
+    
+    subgraph &#34;ゲートウェイ層&#34;
+        GW[&#34;KAMUI CODE ゲートウェイ&lt;br/&gt;({BASE_URL})&#34;]
+    end
+    
+    subgraph &#34;サービスルーター&#34;
+        RT[&#34;カテゴリ別ルーティング&lt;br/&gt;(t2i, i2i, t2v 等)&#34;]
+    end
+    
+    subgraph &#34;プロバイダーサービス&#34;
+        direction TB
+        P1[FAL.ai サービス]
+        P2[Google サービス]
+        P3[MiniMax サービス]
+        P4[Runway サービス]
+        P5[ByteDance サービス]
+    end
+    
+    subgraph &#34;モデルエンドポイント&#34;
+        M1[Imagen4 Ultra]
+        M2[Flux モデル群]
+        M3[Veo3]
+        M4[Hailuo-02]
+        M5[Dreamina v3.1]
+    end
+    
+    C1 --&gt; GW
+    C2 --&gt; GW
+    C3 --&gt; GW
+    GW --&gt; RT
+    RT --&gt; P1
+    RT --&gt; P2
+    RT --&gt; P3
+    RT --&gt; P4
+    RT --&gt; P5
+    P1 --&gt; M1
+    P1 --&gt; M2
+    P2 --&gt; M3
+    P3 --&gt; M4
+    P5 --&gt; M5
+    
+    style RT fill:#2d2d2d,stroke:#4a4a4a,stroke-width:1px
+
+  </div>
+  
+  <div class="mermaid-caption">図: KAMUI CODE システムアーキテクチャ</div>
+  
+</div>
+
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+flowchart LR
+    subgraph &#34;URL構造&#34;
+        BASE[&#34;{BASE_URL}&#34;] --&gt; CAT[&#34;/｛カテゴリ｝&#34;]
+        CAT --&gt; VEND[&#34;/｛ベンダー｝&#34;]
+        VEND --&gt; MODEL[&#34;/｛モデル｝&#34;]
+        MODEL --&gt; VAR[&#34;/｛バリアント｝&#34;]
+    end
+    
+    subgraph &#34;例&#34;
+        E1[&#34;t2i/fal/imagen4/ultra&#34;]
+        E2[&#34;i2v/fal/minimax/hailuo-02/fast&#34;]
+        E3[&#34;v2v/fal/pixverse/lipsync&#34;]
+        E4[&#34;t2s/minimax/speech-25-turbo&#34;]
+    end
+    
+    VAR --&gt; E1
+    VAR --&gt; E2
+    VAR --&gt; E3
+    VAR --&gt; E4
+
+  </div>
+  
+  <div class="mermaid-caption">図: エンドポイントURL階層構造</div>
+  
+</div>
+
+      
+    
+    
+    
+      <pre class="code"><code>map[content:BASE_URL = https://{BASE_URL}
+
+一般パターン:
+  {BASE_URL}/{category}/{vendor}/{model-or-service}/[variant|mode|action]
+
+例（JSONより抽出）:
+  テキスト→画像: {BASE_URL}/t2i/fal/bytedance/dreamina/v3.1/text-to-image
+  画像→画像:     {BASE_URL}/i2i/fal/flux/kontext/max
+  テキスト→動画: {BASE_URL}/t2v/fal/wan/v2.2-5b/text-to-video/fast-wan
+  画像→動画:     {BASE_URL}/i2v/fal/minimax/hailuo-02/fast
+  動画→動画:     {BASE_URL}/v2v/fal/pixverse/lipsync
+  参照→動画:     {BASE_URL}/r2v/fal/vidu/q1
+  テキスト→音声: {BASE_URL}/t2s/minimax/speech-2-5-turbo-preview
+  テキスト→音楽: {BASE_URL}/t2m/google/lyria
+  動画→音声:     {BASE_URL}/v2a/fal/thinksound/audio/standard
+  動画解析:       {BASE_URL}/video-analysis/google/gemini
+  学習:           {BASE_URL}/train/fal/flux/kontext
+  アップロード:   {BASE_URL}/uploader/fal
+  ドキュメント:   {BASE_URL}/requirement
+  ストーリーボード:{BASE_URL}/storyboard
+ language:text]</code></pre>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="catalog" data-cat="5" data-cat-name="カタログ">
+    <h2>6. サーバーカタログ（例・カード一覧）</h2>
+    
+    
+      以下のJSON（パッケージ）から実データを読み込み、サーバー一覧カードを自動生成します。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="card-grid" id="serverCards">
+  
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="packages" data-cat="5" data-cat-name="カタログ">
+    <h2>7. パッケージ一覧（JSON）</h2>
+    
+    
+      パッケージ化されたMCP定義JSONをカード表示します。クリックでJSONを開けます。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="card-grid" id="packageCards">
+  
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="usage" data-cat="6" data-cat-name="利用">
+    <h2>8. 使い方（HTTP・MCPクライアント）</h2>
+    
+    
+      HTTPダイレクト利用の例（curl）。実URLと認証ヘッダは環境に合わせて置換してください。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+sequenceDiagram
+    participant User as ユーザー
+    participant Client as MCPクライアント
+    participant Gateway as KAMUIゲートウェイ
+    participant Provider as プロバイダーAPI
+    participant Model as AIモデル
+    
+    User-&gt;&gt;Client: 生成リクエスト
+    Client-&gt;&gt;Client: mcp/config.json読み込み
+    Client-&gt;&gt;Gateway: POST /t2i/fal/imagen4/ultra
+    Note over Gateway: 認証 &amp; ルーティング
+    Gateway-&gt;&gt;Provider: FAL APIへ転送
+    Provider-&gt;&gt;Model: Imagen4 Ultra実行
+    Model--&gt;&gt;Provider: 生成画像
+    Provider--&gt;&gt;Gateway: 結果返却
+    Gateway--&gt;&gt;Client: URLレスポンス
+    Client--&gt;&gt;User: 結果表示
+
+  </div>
+  
+  <div class="mermaid-caption">図: API呼び出しシーケンス</div>
+  
+</div>
+
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+flowchart LR
+    A[ユーザー入力] --&gt; B{カテゴリ?}
+    B --&gt;|画像生成| C[t2i エンドポイント]
+    B --&gt;|動画生成| D[t2v/i2v エンドポイント]
+    B --&gt;|音声/音楽| E[t2s/t2m エンドポイント]
+    B --&gt;|解析| F[video-analysis]
+    
+    C --&gt; G[プロバイダー選択]
+    D --&gt; G
+    E --&gt; G
+    F --&gt; G
+    
+    G --&gt; H{同期/非同期?}
+    H --&gt;|同期| I[直接レスポンス]
+    H --&gt;|非同期| J[ジョブキュー]
+    
+    J --&gt; K[ステータス確認]
+    K --&gt; L{完了?}
+    L --&gt;|いいえ| K
+    L --&gt;|はい| M[結果取得]
+    
+    I --&gt; N[ユーザーへ返却]
+    M --&gt; N
+
+  </div>
+  
+  <div class="mermaid-caption">図: リクエスト処理フロー</div>
+  
+</div>
+
+      
+    
+    
+    
+      <pre class="code"><code>map[content:# 画像生成（例）
+curl -X POST &#34;{BASE_URL}/api/creative/image/v1/generate&#34; \
+  -H &#34;Authorization: Bearer &lt;TOKEN&gt;&#34; \
+  -H &#34;Content-Type: application/json&#34; \
+  -d &#39;{
+    &#34;prompt&#34;: &#34;夕暮れの富士山、浮世絵スタイル&#34;,
+    &#34;size&#34;: &#34;1024x1024&#34;
+  }&#39;
+
+# コード解析（例）
+curl -X POST &#34;{BASE_URL}/api/dev/code/v1/analyze&#34; \
+  -H &#34;Authorization: Bearer &lt;TOKEN&gt;&#34; \
+  -H &#34;Content-Type: application/json&#34; \
+  -d &#39;{
+    &#34;language&#34;: &#34;ts&#34;,
+    &#34;source&#34;: &#34;function add(a:number,b:number){return a&#43;b}&#34;
+  }&#39;
+ language:bash]</code></pre>
+
+    
+    
+    
+    
+    
+    
+    
+      <p>MCP対応クライアントでの利用（概略）:</p>
+<ol>
+<li>本リポジトリの <code>mcp/config.json</code> を取得します（後述）。</li>
+<li>クライアント側で設定ファイルの参照先を指定します。</li>
+<li>クライアントのツール一覧に、定義済みサーバーが表示されます。</li>
+</ol>
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="functional" data-cat="3" data-cat-name="要件">
+    <h2>9. 機能要件（ドキュメント/配布物）</h2>
+    
+    
+      <ul>
+<li>単一HTMLドキュメント: 本書(index.html)にCSS/JSを埋め込み、GitHub Pagesで直接公開可能。</li>
+<li>参考画像同梱（kamui-*.png）: サンプルUIやコンセプト図を提供。</li>
+<li>JSONファイル形式: MCPサーバー定義（mcp-*.json）をパッケージで配布。</li>
+<li>階層的URL設計: 各カテゴリごとにモジュール形式で追加・削除可能。</li>
+<li>CLIツール互換性: MCPクライアント（Codex, Claude等）から直接利用可能。</li>
+</ul>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="nonfunctional" data-cat="3" data-cat-name="要件">
+    <h2>11. 非機能要件</h2>
+    
+    
+      <ul>
+<li><strong>可用性</strong>: 99.5%以上のアップタイム（エンタープライズプラン）。</li>
+<li><strong>応答性</strong>: 平均レスポンスタイム3秒以内（ネットワーク依存）。</li>
+<li><strong>拡張性</strong>: 新規サーバー追加時、設定JSONへの追記のみで対応。</li>
+<li><strong>セキュリティ</strong>: Bearer Token認証、HTTPS通信必須。</li>
+<li><strong>互換性</strong>: MCP準拠クライアントならびにREST APIからアクセス可能。</li>
+</ul>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="design-requirements" data-cat="3" data-cat-name="要件">
+    <h2>10. デザイン要件定義</h2>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <h3>カラーパレット</h3>
+<div class="color-palette">
+  
+  <div class="color-group">
+    <h4>ダークテーマ</h4>
+    <div class="color-swatches">
+      
+      <div class="color-swatch" style="background-color: #1a1a1a; color: #ffffff;">
+        <div class="color-label">背景</div>
+        <div class="color-code">#1a1a1a</div>
+      </div>
+      
+      <div class="color-swatch" style="background-color: #ffffff; color: #ffffff;">
+        <div class="color-label">テキスト</div>
+        <div class="color-code">#ffffff</div>
+      </div>
+      
+      <div class="color-swatch" style="background-color: #2a2a2a; color: #ffffff;">
+        <div class="color-label">ボーダー</div>
+        <div class="color-code">#2a2a2a</div>
+      </div>
+      
+      <div class="color-swatch" style="background-color: #4a9eff; color: #ffffff;">
+        <div class="color-label">リンク</div>
+        <div class="color-code">#4a9eff</div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="color-group">
+    <h4>ライトテーマ</h4>
+    <div class="color-swatches">
+      
+      <div class="color-swatch light" style="background-color: #f7f7f8; color: #1a1a1a;">
+        <div class="color-label">背景</div>
+        <div class="color-code">#f7f7f8</div>
+      </div>
+      
+      <div class="color-swatch light" style="background-color: #1a1a1a; color: #1a1a1a;">
+        <div class="color-label">テキスト</div>
+        <div class="color-code">#1a1a1a</div>
+      </div>
+      
+      <div class="color-swatch light" style="background-color: #e4e4e7; color: #1a1a1a;">
+        <div class="color-label">ボーダー</div>
+        <div class="color-code">#e4e4e7</div>
+      </div>
+      
+      <div class="color-swatch light" style="background-color: #2563eb; color: #1a1a1a;">
+        <div class="color-label">リンク</div>
+        <div class="color-code">#2563eb</div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<h3>カテゴリー別カラー</h3>
+<div class="category-colors">
+  
+  <div class="category-card creative">
+    <div class="category-gradient" style="background: ZgotmplZ;">
+      <h4>クリエイティブ</h4>
+      <p>画像・動画・音楽生成</p>
+    </div>
+    <div class="category-specs">
+      <span class="gradient-spec">グラデーション指定:</span>
+      <div class="color-values">
+        
+        <span class="color-val">#8B5CF6</span>
+        
+        <span class="color-val">#EC4899</span>
+        
+        <span class="color-val">#FB923C</span>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="category-card development">
+    <div class="category-gradient" style="background: ZgotmplZ;">
+      <h4>開発</h4>
+      <p>コード生成・分析・デバッグ</p>
+    </div>
+    <div class="category-specs">
+      <span class="gradient-spec">グラデーション指定:</span>
+      <div class="color-values">
+        
+        <span class="color-val">#3B82F6</span>
+        
+        <span class="color-val">#06B6D4</span>
+        
+        <span class="color-val">#10B981</span>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="category-card business">
+    <div class="category-gradient" style="background: ZgotmplZ;">
+      <h4>ビジネス</h4>
+      <p>翻訳・要約・レポート</p>
+    </div>
+    <div class="category-specs">
+      <span class="gradient-spec">グラデーション指定:</span>
+      <div class="color-values">
+        
+        <span class="color-val">#10B981</span>
+        
+        <span class="color-val">#14B8A6</span>
+        
+        <span class="color-val">#06B6D4</span>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<h3>タイポグラフィー</h3>
+<div class="typography-samples">
+  
+  <div class="typo-item">
+    <span class="typo-label">メインタイトル</span>
+    <div class="typo-sample" style="ZgotmplZ">KAMUI CODE ドキュメント</div>
+    <span class="typo-spec">font-size: 1.6rem; font-weight: 700;</span>
+  </div>
+  
+  <div class="typo-item">
+    <span class="typo-label">セクションヘッダー</span>
+    <div class="typo-sample" style="ZgotmplZ">1. 概要</div>
+    <span class="typo-spec">font-size: 1.1rem; font-weight: 600;</span>
+  </div>
+  
+  <div class="typo-item">
+    <span class="typo-label">本文</span>
+    <div class="typo-sample" style="ZgotmplZ">KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供します。</div>
+    <span class="typo-spec">font-size: 0.95rem; line-height: 1.7;</span>
+  </div>
+  
+  <div class="typo-item">
+    <span class="typo-label">コード</span>
+    <div class="typo-sample" style="ZgotmplZ">const result = await api.generate({ prompt: &#39;hello&#39; });</div>
+    <span class="typo-spec">font-family: ui-monospace, monospace; font-size: 0.85rem;</span>
+  </div>
+  
+</div>
+
+<h3>レイアウト構成</h3>
+<div class="layout-specs">
+  <h4>基本レイアウト</h4>
+  <ul>
+    
+    <li>map[サイドバー幅:280px]</li>
+    
+    <li>map[メインコンテンツパディング:24px]</li>
+    
+    <li>map[カード間隔:18px]</li>
+    
+    <li>map[ボーダーラジウス:8px～16px]</li>
+    
+  </ul>
+</div>
+
+<h3>インタラクション</h3>
+<div class="interaction-specs">
+  <h4>アニメーション設定</h4>
+  <ul>
+    
+    <li>map[ホバーエフェクト:背景色変化、translateY(-2px)]</li>
+    
+    <li>map[トランジション:all 0.2s ease]</li>
+    
+    <li>map[スクロールビヘイビア:smooth]</li>
+    
+    <li>map[モーダル背景:rgba(0,0,0,0.6)]</li>
+    
+  </ul>
+</div>
+
+<h3>レスポンシブ対応</h3>
+<div class="responsive-specs">
+  <h4>ブレークポイント</h4>
+  <ul>
+    
+    <li>map[ブレークポイント:768px]</li>
+    
+    <li>map[モバイルサイドバー:スライド式]</li>
+    
+    <li>map[グリッド調整:3列 → 2列 → 1列]</li>
+    
+    <li>map[タッチ対応:タップ操作最適化]</li>
+    
+  </ul>
+</div>
+
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="config" data-cat="6" data-cat-name="利用">
+    <h2>11. 設定ファイル（mcp/config.json）</h2>
+    
+    
+      複数のMCPサーバーをまとめて配布するための設定例です。必要に応じてIDやURL、認証方式を調整します。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <pre class="code"><code>map[content:{
+  &#34;mcpServers&#34;: {
+    &#34;kamui-creative&#34;: {
+      &#34;command&#34;: &#34;npx&#34;,
+      &#34;args&#34;: [&#34;@kamui/mcp-creative&#34;],
+      &#34;env&#34;: {
+        &#34;API_KEY&#34;: &#34;YOUR_CREATIVE_API_KEY&#34;
+      }
+    },
+    &#34;kamui-dev&#34;: {
+      &#34;command&#34;: &#34;npx&#34;,
+      &#34;args&#34;: [&#34;@kamui/mcp-dev&#34;],
+      &#34;env&#34;: {
+        &#34;API_KEY&#34;: &#34;YOUR_DEV_API_KEY&#34;
+      }
+    },
+    &#34;kamui-business&#34;: {
+      &#34;command&#34;: &#34;npx&#34;,
+      &#34;args&#34;: [&#34;@kamui/mcp-business&#34;],
+      &#34;env&#34;: {
+        &#34;API_KEY&#34;: &#34;YOUR_BUSINESS_API_KEY&#34;
+      }
+    }
+  }
+}
+ language:json]</code></pre>
+
+    
+    
+    
+    
+    
+    
+    
+      <h3 id="クライアント別サンプル">クライアント別サンプル</h3>
+
+    
+    
+    
+      <div class="card-grid" id="clientSampleCards">
+  
+  <div class="card pastel" data-sample-id="client-codex">
+    <div class="card-title">Codex CLI 用サンプル</div>
+    <div class="endpoint-box"><div class="endpoint">サーバー定義数: -</div></div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="view-btn" data-open-client="client-codex">サンプルを見る</button>
+      <button class="view-btn" data-copy-client="client-codex">コピー</button>
+    </div>
+  </div>
+  <script type="application/json" id="client-codex"></script>
+  
+  <div class="card pastel" data-sample-id="client-claude">
+    <div class="card-title">Claude Code / Claude 用サンプル</div>
+    <div class="endpoint-box"><div class="endpoint">サーバー定義数: -</div></div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="view-btn" data-open-client="client-claude">サンプルを見る</button>
+      <button class="view-btn" data-copy-client="client-claude">コピー</button>
+    </div>
+  </div>
+  <script type="application/json" id="client-claude"></script>
+  
+  <div class="card pastel" data-sample-id="client-claude-command">
+    <div class="card-title">Claude（command型）サンプル</div>
+    <div class="endpoint-box"><div class="endpoint">サーバー定義数: -</div></div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="view-btn" data-open-client="client-claude-command">サンプルを見る</button>
+      <button class="view-btn" data-copy-client="client-claude-command">コピー</button>
+    </div>
+  </div>
+  <script type="application/json" id="client-claude-command"></script>
+  
+  <div class="card pastel" data-sample-id="client-gemini">
+    <div class="card-title">Gemini CLI 用サンプル</div>
+    <div class="endpoint-box"><div class="endpoint">サーバー定義数: -</div></div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="view-btn" data-open-client="client-gemini">サンプルを見る</button>
+      <button class="view-btn" data-copy-client="client-gemini">コピー</button>
+    </div>
+  </div>
+  <script type="application/json" id="client-gemini"></script>
+  
+</div>
+
+    
+  </section>
+  
+  <section class="doc-section" id="packaging" data-cat="7" data-cat-name="運用">
+    <h2>12. パッケージング指針</h2>
+    
+    
+      <ul>
+<li><strong>単一HTML化</strong>: GitHub Pages にそのまま公開可能。</li>
+<li><strong>カテゴリ別パッケージ</strong>: クリエイティブ/開発/ビジネスを別npmパッケージとして管理。</li>
+<li><strong>CI/CD対応</strong>: GitHub Actions でテスト・ビルド・デプロイを自動化。</li>
+<li><strong>バージョン管理</strong>: SemVer準拠、CHANGELOG.md で変更履歴を追跡。</li>
+</ul>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="schedule" data-cat="6" data-cat-name="スケジュール">
+    <h2>プロジェクトスケジュール</h2>
+    
+    
+      「渋谷猫カフェ - 要件定義書」の開発ガントチャートを参考に、本プロジェクトの概略スケジュールを示します。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <div class="gantt-wrapper">
+  <div class="mermaid" style="width: 1600px !important; min-width: 1600px !important; height: 500px !important;">
+gantt
+  title KAMUI CODE 開発スケジュール
+  dateFormat YYYY-MM-DD
+  section フェーズ1
+  要件定義 :done, req, 2024-01-01, 30d
+  基本設計 :done, design, after req, 30d
+  詳細設計 :active, detail, after design, 20d
+  section フェーズ2
+  実装 :impl, after detail, 60d
+  テスト :test, after impl, 30d
+  section フェーズ3
+  デプロイ準備 :deploy, after test, 14d
+  本番リリース :milestone, after deploy, 0d
+
+  </div>
+  <div class="mermaid-caption">図: プロジェクトスケジュール</div>
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <h3 id="マイルストーン">マイルストーン</h3>
+<ul>
+<li><strong>フェーズ1完了</strong>: 基本設計・要件定義の確定</li>
+<li><strong>フェーズ2完了</strong>: コア機能の実装・統合テスト</li>
+<li><strong>フェーズ3完了</strong>: 本番リリース・運用開始</li>
+</ul>
+
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="deploy" data-cat="7" data-cat-name="運用">
+    <h2>13. デプロイ（GitHub Pages / Cloudflare）</h2>
+    
+    
+      <ul>
+<li><strong>GitHub Pages</strong>: 本リポジトリの index.html をそのまま公開。カスタムドメイン設定も可能。</li>
+<li><strong>Cloudflare Pages</strong>: CI/CDパイプラインと組み合わせ、自動デプロイ。</li>
+<li><strong>静的ホスティング</strong>: S3 + CloudFront、Netlify、Vercel などでも配信可能。</li>
+</ul>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+flowchart LR
+    subgraph &#34;開発&#34;
+        A[ローカル開発] --&gt; B[Git コミット]
+        B --&gt; C[GitHub へプッシュ]
+    end
+    
+    subgraph &#34;CI/CD パイプライン&#34;
+        C --&gt; D[GitHub Actions]
+        D --&gt; E{テスト成功?}
+        E --&gt;|はい| F[静的ファイルビルド]
+        E --&gt;|いいえ| G[問題修正]
+        G --&gt; B
+    end
+    
+    subgraph &#34;デプロイ&#34;
+        F --&gt; H[GitHub Pages]
+        F --&gt; I[Cloudflare Pages]
+        H --&gt; J[&#34;docs.{BASE_URL}&#34;]
+        I --&gt; K[&#34;{BASE_URL}&#34;]
+    end
+    
+    subgraph &#34;CDN/配信&#34;
+        J --&gt; L[グローバル CDN]
+        K --&gt; L
+        L --&gt; M[エンドユーザー]
+    end
+    
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+
+  </div>
+  
+  <div class="mermaid-caption">図: デプロイメントフロー</div>
+  
+</div>
+
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="operations" data-cat="7" data-cat-name="運用">
+    <h2>14. 運用・保守</h2>
+    
+    
+      <ul>
+<li><strong>監視</strong>: エンドポイントのヘルスチェック、レスポンスタイム計測。</li>
+<li><strong>ログ管理</strong>: APIリクエストログ、エラーログの集約・分析。</li>
+<li><strong>インシデント対応</strong>: 障害時の通知フロー、復旧手順。</li>
+<li><strong>メンテナンスウィンドウ</strong>: 定期的なサービス更新時間の設定。</li>
+</ul>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+flowchart LR
+    subgraph &#34;監視&#34;
+        M1[ヘルスチェック] --&gt; M2{ステータスOK?}
+        M2 --&gt;|はい| M3[メトリクス記録]
+        M2 --&gt;|いいえ| M4[チームへ通知]
+    end
+    
+    subgraph &#34;インシデント対応&#34;
+        M4 --&gt; I1[問題診断]
+        I1 --&gt; I2{緊急度?}
+        I2 --&gt;|高| I3[即座に修正]
+        I2 --&gt;|低| I4[修正予定]
+        I3 --&gt; I5[ホットフィックスデプロイ]
+        I4 --&gt; I6[定期メンテナンス]
+    end
+    
+    subgraph &#34;メンテナンス&#34;
+        I6 --&gt; U1[サービス更新]
+        U1 --&gt; U2[変更テスト]
+        U2 --&gt; U3[ステージングデプロイ]
+        U3 --&gt; U4{テスト成功?}
+        U4 --&gt;|はい| U5[本番デプロイ]
+        U4 --&gt;|いいえ| U6[ロールバック]
+        U6 --&gt; U2
+    end
+    
+    style I2 fill:#ff9,stroke:#333,stroke-width:2px
+
+  </div>
+  
+  <div class="mermaid-caption">図: 運用フロー</div>
+  
+</div>
+
+      
+        <div class="mermaid-wrapper">
+  <div class="mermaid">
+flowchart LR
+    A[新規サービス要求] --&gt; B[API評価]
+    B --&gt; C{互換性あり?}
+    C --&gt;|いいえ| D[アダプター作成]
+    C --&gt;|はい| E[エンドポイント定義]
+    D --&gt; E
+    E --&gt; F[テスト実装]
+    F --&gt; G[ドキュメント更新]
+    G --&gt; H[リリース]
+    H --&gt; I[利用者へ通知]
+
+  </div>
+  
+  <div class="mermaid-caption">図: 拡張フロー</div>
+  
+</div>
+
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="acceptance" data-cat="3" data-cat-name="要件">
+    <h2>15. 受入基準</h2>
+    
+    
+      <ul>
+<li><strong>基本エンドポイント</strong>: 全カテゴリの基本エンドポイントが動作すること。</li>
+<li><strong>認証機能</strong>: Bearer Tokenまたは同等の認証が有効であること。</li>
+<li><strong>ドキュメント</strong>: 本HTMLがGitHub Pagesで正常表示されること。</li>
+<li><strong>レスポンスタイム</strong>: 95%パーセンタイルが3秒以内。</li>
+<li><strong>エラーハンドリング</strong>: 適切なエラーメッセージが返されること。</li>
+</ul>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+  <section class="doc-section" id="appendix" data-cat="8" data-cat-name="付録">
+    <h2>16. 付録</h2>
+    
+    
+      プレースホルダ（{BASE_URL}、<TOKEN> など）は環境に合わせて置換してください。実エンドポイント/仕様は導入時の合意に基づき最新へ更新します。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </section>
+  
+
+    </div>
+  </div>
+  
+  
+<div class="modal-backdrop" id="jsonModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="jsonModalTitle">JSONプレビュー</span>
+    </div>
+    <div class="modal-body">
+      <pre class="code" id="jsonContent"></pre>
+    </div>
+    <div class="modal-actions">
+      <button class="view-btn" id="jsonCopyBtn">コピー</button>
+      <button class="view-btn" id="jsonCloseBtn">閉じる</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-backdrop" id="imgModal">
+  <div class="modal" style="max-width:90%; width:auto;">
+    <div class="modal-header">
+      <span class="modal-title" id="imgModalTitle">画像プレビュー</span>
+    </div>
+    <div class="modal-body" style="padding:0; background:var(--media-bg);">
+      <img id="imgModalImage" src="" alt="" style="width:100%; height:auto; display:block;">
+    </div>
+    <div class="modal-actions">
+      <button class="view-btn" id="imgCloseBtn">閉じる</button>
+    </div>
+  </div>
+</div>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  
+  <script src="/js/main.js"></script>
+</body>
+</html>

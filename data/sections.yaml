@@ -1,0 +1,666 @@
+# KAMUI CODE ドキュメントのセクション定義
+
+- id: overview
+  category: 1
+  category_name: イントロダクション
+  title: 1. 概要
+  content: |
+    KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供するソリューションです。
+    クリエイティブ、開発、ビジネスの3領域を横断し、上位のベースURL配下に各サーバーのエンドポイントを階層的に配置します。
+    本書は、KAMUI CODE のコンセプト、エンドポイント設計、サーバーカタログ、使い方、および設定ファイル（mcp/config.json）と
+    パッケージング方針を整理し、GitHub Pages で公開できる単一HTMLのドキュメントとしてまとめたものです。
+
+- id: pricing
+  category: 6
+  category_name: 利用
+  title: 料金モデル比較
+  content: 代表的なプランの比較です。用途と負荷に応じて選択してください。
+  cards:
+    - title: フリープラン
+      pastel: true
+      badges:
+        - 無料
+      list_class: checks
+      list:
+        - 画像生成: 月30回まで
+        - 動画生成: 月10回まで
+        - 基本モデルのみアクセス
+        - 低優先度処理（待ち時間あり）
+        - コミュニティサポート
+    - title: 従量課金
+      pastel: true
+      badges:
+        - 使った分だけ
+      list_class: checks
+      list:
+        - 全て従量課金（原価+20%マージン）
+        - 中優先度処理（標準的な待ち時間）
+        - メールサポート（48時間以内）
+        - 個人・小規模チーム利用向け
+        - 使った分だけの公平な料金システム
+    - title: エンタープライズ
+      pastel: true
+      badges:
+        - お問い合わせ
+      list_class: checks
+      list:
+        - 全モデル無制限利用
+        - 最新モデル早期アクセス
+        - 最優先処理（即時）
+        - 専用Discordサポート
+        - API使用量分析ダッシュボード
+
+- id: menu
+  category: 2
+  category_name: UI
+  title: メニュー一覧
+  content: KAMUI CODE ドキュメントのメニュー構造をJSON（data/kamui-doc-menus.json）で管理し、下表に自動展開します。
+  dynamic_table:
+    id: docMenuTable
+    headers:
+      - ラベル
+      - ID
+      - 種別
+      - パス
+      - 親ID
+      - 並び順
+      - 説明
+    data_source: kamui-doc-menus
+
+- id: domains
+  category: 1
+  category_name: イントロダクション
+  title: 2. コンセプトと対象領域
+  content: |
+    - クリエイティブ領域: 生成・編集・評価（画像/テキスト/ドキュメント等）。
+    - 開発領域: コード生成/解析、リファクタリング、レビュー、ドキュメント化。
+    - ビジネス領域: 翻訳、要約、レポーティング、データ分析補助。
+    
+    上記領域を共通のプロトコルと設計原則で統一し、サーバー追加・差し替え・組合せを安定して行えることを目指します。
+  images:
+    - path: /images/kamui-white-2-fullscreen-1.png
+      name: フルスクリーンUI版1
+    - path: /images/kamui-white-2-fullscreen-2.png
+      name: フルスクリーンUI版2
+    - path: /images/creative-tools-ui-1.png
+      name: Creative Toolsクリック後UI版1
+    - path: /images/creative-tools-ui-2.png
+      name: Creative Toolsクリック後UI版2
+
+- id: ui-flow
+  category: 2
+  category_name: UI
+  title: 3. UI遷移図
+  content: ""
+  flow_diagram:
+    id: uiFlow
+    type: interactive
+    width: 1600
+    height: 900
+
+- id: ui
+  category: 2
+  category_name: UI
+  title: 4. UI/画面（参考デザイン画像）
+  content: 以下は同梱の参考デザイン画像です（画像を右クリックして相対パスをコピーできます）。
+  images:
+    - path: /images/kamui-docs-ui-pattern1-dark.png
+      name: kamui-docs-ui-pattern1-dark.png
+    - path: /images/kamui-docs-ui-pattern2-gradient.png
+      name: kamui-docs-ui-pattern2-gradient.png
+    - path: /images/kamui-docs-ui-pattern3-minimal.png
+      name: kamui-docs-ui-pattern3-minimal.png
+    - path: /images/kamui-docs-ui-pattern4-cyberpunk.png
+      name: kamui-docs-ui-pattern4-cyberpunk.png
+    - path: /images/kamui-docs-ui-pattern5-japanese.png
+      name: kamui-docs-ui-pattern5-japanese.png
+    - path: /images/kamui-v2-1-dark-neonblue.png
+      name: kamui-v2-1-dark-neonblue.png
+    - path: /images/kamui-v2-2-white-enterprise.png
+      name: kamui-v2-2-white-enterprise.png
+    - path: /images/kamui-v2-3-split-darklight.png
+      name: kamui-v2-3-split-darklight.png
+    - path: /images/kamui-v2-4-terminal-green.png
+      name: kamui-v2-4-terminal-green.png
+    - path: /images/kamui-v2-5-white-pastel.png
+      name: kamui-v2-5-white-pastel.png
+    - path: /images/kamui-white-1.png
+      name: kamui-white-1.png
+    - path: /images/kamui-white-2.png
+      name: kamui-white-2.png
+    - path: /images/kamui-gradient-soft-1.png
+      name: kamui-gradient-soft-1.png（淡い色調＋ノートPC版1）
+    - path: /images/kamui-gradient-soft-2.png
+      name: kamui-gradient-soft-2.png（淡い色調＋ノートPC版2）
+    - path: /images/kamui-white-3.png
+      name: kamui-white-3.png
+    - path: /images/kamui-white-4.png
+      name: kamui-white-4.png
+    - path: /images/kamui-white-5.png
+      name: kamui-white-5.png
+
+- id: mcp
+  category: 2
+  category_name: UI
+  title: MCPプレイリスト/カタログ
+  content: MCPプレイリスト（上位）とMCPカタログをカテゴリ（クリエイティブ/開発/ビジネス）で切り替えて表示します。ボタンをクリックすると一覧（表）を表示します。
+  mcp_section:
+    enabled: true
+    image: /images/kamui-white-2.png
+
+- id: architecture
+  category: 4
+  category_name: アーキテクチャ
+  title: 5. アーキテクチャとエンドポイント設計
+  content: |
+    実URL構造は提供JSONの`mcpServers[*].url`に準拠します。ベースドメインは `https://{BASE_URL}` で、
+    先頭にカテゴリ（例: `t2i`, `i2i`, `t2v`, `i2v`, `v2v`, `r2v`, `t2s`, `t2m`, `v2a`, `uploader`, `train`, 
+    `video-analysis`, `requirement`, `storyboard`）が続き、ベンダ・モデル・モード等が後続します。
+  mermaid: |
+    graph TD
+      A[KAMUI CODE Base] --> B[Creative Category]
+      A --> C[Development Category]
+      A --> D[Business Category]
+      B --> E[t2i - Text to Image]
+      B --> F[i2i - Image to Image]
+      B --> G[t2v - Text to Video]
+      C --> H[Code Generation]
+      C --> I[Code Analysis]
+      D --> J[Translation]
+      D --> K[Summarization]
+  additional_mermaid:
+    - type: system_architecture
+      content: |
+        graph TB
+            subgraph "クライアント層"
+                C1[MCPクライアント]
+                C2[HTTPクライアント]
+                C3[SDK/ライブラリ]
+            end
+            
+            subgraph "ゲートウェイ層"
+                GW["KAMUI CODE ゲートウェイ<br/>({BASE_URL})"]
+            end
+            
+            subgraph "サービスルーター"
+                RT["カテゴリ別ルーティング<br/>(t2i, i2i, t2v 等)"]
+            end
+            
+            subgraph "プロバイダーサービス"
+                direction TB
+                P1[FAL.ai サービス]
+                P2[Google サービス]
+                P3[MiniMax サービス]
+                P4[Runway サービス]
+                P5[ByteDance サービス]
+            end
+            
+            subgraph "モデルエンドポイント"
+                M1[Imagen4 Ultra]
+                M2[Flux モデル群]
+                M3[Veo3]
+                M4[Hailuo-02]
+                M5[Dreamina v3.1]
+            end
+            
+            C1 --> GW
+            C2 --> GW
+            C3 --> GW
+            GW --> RT
+            RT --> P1
+            RT --> P2
+            RT --> P3
+            RT --> P4
+            RT --> P5
+            P1 --> M1
+            P1 --> M2
+            P2 --> M3
+            P3 --> M4
+            P5 --> M5
+            
+            style RT fill:#2d2d2d,stroke:#4a4a4a,stroke-width:1px
+    - type: endpoint_hierarchy
+      content: |
+        flowchart LR
+            subgraph "URL構造"
+                BASE["{BASE_URL}"] --> CAT["/｛カテゴリ｝"]
+                CAT --> VEND["/｛ベンダー｝"]
+                VEND --> MODEL["/｛モデル｝"]
+                MODEL --> VAR["/｛バリアント｝"]
+            end
+            
+            subgraph "例"
+                E1["t2i/fal/imagen4/ultra"]
+                E2["i2v/fal/minimax/hailuo-02/fast"]
+                E3["v2v/fal/pixverse/lipsync"]
+                E4["t2s/minimax/speech-25-turbo"]
+            end
+            
+            VAR --> E1
+            VAR --> E2
+            VAR --> E3
+            VAR --> E4
+
+  code:
+    language: text
+    content: |
+      BASE_URL = https://{BASE_URL}
+      
+      一般パターン:
+        {BASE_URL}/{category}/{vendor}/{model-or-service}/[variant|mode|action]
+      
+      例（JSONより抽出）:
+        テキスト→画像: {BASE_URL}/t2i/fal/bytedance/dreamina/v3.1/text-to-image
+        画像→画像:     {BASE_URL}/i2i/fal/flux/kontext/max
+        テキスト→動画: {BASE_URL}/t2v/fal/wan/v2.2-5b/text-to-video/fast-wan
+        画像→動画:     {BASE_URL}/i2v/fal/minimax/hailuo-02/fast
+        動画→動画:     {BASE_URL}/v2v/fal/pixverse/lipsync
+        参照→動画:     {BASE_URL}/r2v/fal/vidu/q1
+        テキスト→音声: {BASE_URL}/t2s/minimax/speech-2-5-turbo-preview
+        テキスト→音楽: {BASE_URL}/t2m/google/lyria
+        動画→音声:     {BASE_URL}/v2a/fal/thinksound/audio/standard
+        動画解析:       {BASE_URL}/video-analysis/google/gemini
+        学習:           {BASE_URL}/train/fal/flux/kontext
+        アップロード:   {BASE_URL}/uploader/fal
+        ドキュメント:   {BASE_URL}/requirement
+        ストーリーボード:{BASE_URL}/storyboard
+
+- id: catalog
+  category: 5
+  category_name: カタログ
+  title: 6. サーバーカタログ（例・カード一覧）
+  content: 以下のJSON（パッケージ）から実データを読み込み、サーバー一覧カードを自動生成します。
+  dynamic_cards:
+    id: serverCards
+    data_source: mcp-servers
+
+- id: packages
+  category: 5
+  category_name: カタログ
+  title: 7. パッケージ一覧（JSON）
+  content: パッケージ化されたMCP定義JSONをカード表示します。クリックでJSONを開けます。
+  dynamic_cards:
+    id: packageCards
+    data_source: mcp-packages
+
+- id: usage
+  category: 6
+  category_name: 利用
+  title: 8. 使い方（HTTP・MCPクライアント）
+  content: |
+    HTTPダイレクト利用の例（curl）。実URLと認証ヘッダは環境に合わせて置換してください。
+  code:
+    language: bash
+    content: |
+      # 画像生成（例）
+      curl -X POST "{BASE_URL}/api/creative/image/v1/generate" \
+        -H "Authorization: Bearer <TOKEN>" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "prompt": "夕暮れの富士山、浮世絵スタイル",
+          "size": "1024x1024"
+        }'
+      
+      # コード解析（例）
+      curl -X POST "{BASE_URL}/api/dev/code/v1/analyze" \
+        -H "Authorization: Bearer <TOKEN>" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "language": "ts",
+          "source": "function add(a:number,b:number){return a+b}"
+        }'
+  additional_content: |
+    MCP対応クライアントでの利用（概略）:
+    1. 本リポジトリの `mcp/config.json` を取得します（後述）。
+    2. クライアント側で設定ファイルの参照先を指定します。
+    3. クライアントのツール一覧に、定義済みサーバーが表示されます。
+  additional_mermaid:
+    - type: api_sequence
+      content: |
+        sequenceDiagram
+            participant User as ユーザー
+            participant Client as MCPクライアント
+            participant Gateway as KAMUIゲートウェイ
+            participant Provider as プロバイダーAPI
+            participant Model as AIモデル
+            
+            User->>Client: 生成リクエスト
+            Client->>Client: mcp/config.json読み込み
+            Client->>Gateway: POST /t2i/fal/imagen4/ultra
+            Note over Gateway: 認証 & ルーティング
+            Gateway->>Provider: FAL APIへ転送
+            Provider->>Model: Imagen4 Ultra実行
+            Model-->>Provider: 生成画像
+            Provider-->>Gateway: 結果返却
+            Gateway-->>Client: URLレスポンス
+            Client-->>User: 結果表示
+    - type: processing_flow
+      content: |
+        flowchart LR
+            A[ユーザー入力] --> B{カテゴリ?}
+            B -->|画像生成| C[t2i エンドポイント]
+            B -->|動画生成| D[t2v/i2v エンドポイント]
+            B -->|音声/音楽| E[t2s/t2m エンドポイント]
+            B -->|解析| F[video-analysis]
+            
+            C --> G[プロバイダー選択]
+            D --> G
+            E --> G
+            F --> G
+            
+            G --> H{同期/非同期?}
+            H -->|同期| I[直接レスポンス]
+            H -->|非同期| J[ジョブキュー]
+            
+            J --> K[ステータス確認]
+            K --> L{完了?}
+            L -->|いいえ| K
+            L -->|はい| M[結果取得]
+            
+            I --> N[ユーザーへ返却]
+            M --> N
+
+- id: functional
+  category: 3
+  category_name: 要件
+  title: 9. 機能要件（ドキュメント/配布物）
+  content: |
+    - 単一HTMLドキュメント: 本書(index.html)にCSS/JSを埋め込み、GitHub Pagesで直接公開可能。
+    - 参考画像同梱（kamui-*.png）: サンプルUIやコンセプト図を提供。
+    - JSONファイル形式: MCPサーバー定義（mcp-*.json）をパッケージで配布。
+    - 階層的URL設計: 各カテゴリごとにモジュール形式で追加・削除可能。
+    - CLIツール互換性: MCPクライアント（Codex, Claude等）から直接利用可能。
+
+- id: nonfunctional
+  category: 3
+  category_name: 要件
+  title: 11. 非機能要件
+  content: |
+    - **可用性**: 99.5%以上のアップタイム（エンタープライズプラン）。
+    - **応答性**: 平均レスポンスタイム3秒以内（ネットワーク依存）。
+    - **拡張性**: 新規サーバー追加時、設定JSONへの追記のみで対応。
+    - **セキュリティ**: Bearer Token認証、HTTPS通信必須。
+    - **互換性**: MCP準拠クライアントならびにREST APIからアクセス可能。
+
+- id: design-requirements
+  category: 3
+  category_name: 要件
+  title: 10. デザイン要件定義
+  content: ""
+  design_specs:
+    colors:
+      - group: ダークテーマ
+        swatches:
+          - name: 背景
+            color: "#1a1a1a"
+            label: bg
+          - name: テキスト
+            color: "#ffffff"
+            label: text
+          - name: ボーダー
+            color: "#2a2a2a"
+            label: border
+          - name: リンク
+            color: "#4a9eff"
+            label: link
+      - group: ライトテーマ
+        swatches:
+          - name: 背景
+            color: "#f7f7f8"
+            label: bg
+            light: true
+          - name: テキスト
+            color: "#1a1a1a"
+            label: text
+            light: true
+          - name: ボーダー
+            color: "#e4e4e7"
+            label: border
+            light: true
+          - name: リンク
+            color: "#2563eb"
+            label: link
+            light: true
+    categories:
+      - name: クリエイティブ
+        class: creative
+        gradient: "linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #FB923C 100%)"
+        description: 画像・動画・音楽生成
+        colors:
+          - "#8B5CF6"
+          - "#EC4899"
+          - "#FB923C"
+      - name: 開発
+        class: development
+        gradient: "linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #10B981 100%)"
+        description: コード生成・分析・デバッグ
+        colors:
+          - "#3B82F6"
+          - "#06B6D4"
+          - "#10B981"
+      - name: ビジネス
+        class: business
+        gradient: "linear-gradient(135deg, #10B981 0%, #14B8A6 50%, #06B6D4 100%)"
+        description: 翻訳・要約・レポート
+        colors:
+          - "#10B981"
+          - "#14B8A6"
+          - "#06B6D4"
+    typography:
+      - label: メインタイトル
+        sample: "KAMUI CODE ドキュメント"
+        spec: "font-size: 1.6rem; font-weight: 700;"
+      - label: セクションヘッダー
+        sample: "1. 概要"
+        spec: "font-size: 1.1rem; font-weight: 600;"
+      - label: 本文
+        sample: "KAMUI CODE は、MCP（Model Context Protocol）に準拠した複数のサーバー群を統合的に提供します。"
+        spec: "font-size: 0.95rem; line-height: 1.7;"
+      - label: コード
+        sample: "const result = await api.generate({ prompt: 'hello' });"
+        spec: "font-family: ui-monospace, monospace; font-size: 0.85rem;"
+    layout:
+      - サイドバー幅: 280px
+      - メインコンテンツパディング: 24px
+      - カード間隔: 18px
+      - ボーダーラジウス: 8px～16px
+    interaction:
+      - ホバーエフェクト: 背景色変化、translateY(-2px)
+      - トランジション: all 0.2s ease
+      - スクロールビヘイビア: smooth
+      - モーダル背景: rgba(0,0,0,0.6)
+    responsive:
+      - ブレークポイント: 768px
+      - モバイルサイドバー: スライド式
+      - グリッド調整: 3列 → 2列 → 1列
+      - タッチ対応: タップ操作最適化
+
+- id: config
+  category: 6
+  category_name: 利用
+  title: 11. 設定ファイル（mcp/config.json）
+  content: 複数のMCPサーバーをまとめて配布するための設定例です。必要に応じてIDやURL、認証方式を調整します。
+  code:
+    language: json
+    content: |
+      {
+        "mcpServers": {
+          "kamui-creative": {
+            "command": "npx",
+            "args": ["@kamui/mcp-creative"],
+            "env": {
+              "API_KEY": "YOUR_CREATIVE_API_KEY"
+            }
+          },
+          "kamui-dev": {
+            "command": "npx",
+            "args": ["@kamui/mcp-dev"],
+            "env": {
+              "API_KEY": "YOUR_DEV_API_KEY"
+            }
+          },
+          "kamui-business": {
+            "command": "npx",
+            "args": ["@kamui/mcp-business"],
+            "env": {
+              "API_KEY": "YOUR_BUSINESS_API_KEY"
+            }
+          }
+        }
+      }
+  additional_content: |
+    ### クライアント別サンプル
+  client_samples:
+    - id: client-codex
+      title: Codex CLI 用サンプル
+    - id: client-claude
+      title: Claude Code / Claude 用サンプル
+    - id: client-claude-command
+      title: Claude（command型）サンプル
+    - id: client-gemini
+      title: Gemini CLI 用サンプル
+
+- id: packaging
+  category: 7
+  category_name: 運用
+  title: 12. パッケージング指針
+  content: |
+    - **単一HTML化**: GitHub Pages にそのまま公開可能。
+    - **カテゴリ別パッケージ**: クリエイティブ/開発/ビジネスを別npmパッケージとして管理。
+    - **CI/CD対応**: GitHub Actions でテスト・ビルド・デプロイを自動化。
+    - **バージョン管理**: SemVer準拠、CHANGELOG.md で変更履歴を追跡。
+
+- id: schedule
+  category: 6
+  category_name: スケジュール
+  title: プロジェクトスケジュール
+  content: 「渋谷猫カフェ - 要件定義書」の開発ガントチャートを参考に、本プロジェクトの概略スケジュールを示します。
+  gantt: |
+    gantt
+      title KAMUI CODE 開発スケジュール
+      dateFormat YYYY-MM-DD
+      section フェーズ1
+      要件定義 :done, req, 2024-01-01, 30d
+      基本設計 :done, design, after req, 30d
+      詳細設計 :active, detail, after design, 20d
+      section フェーズ2
+      実装 :impl, after detail, 60d
+      テスト :test, after impl, 30d
+      section フェーズ3
+      デプロイ準備 :deploy, after test, 14d
+      本番リリース :milestone, after deploy, 0d
+  additional_content: |
+    
+    ### マイルストーン
+    - **フェーズ1完了**: 基本設計・要件定義の確定
+    - **フェーズ2完了**: コア機能の実装・統合テスト
+    - **フェーズ3完了**: 本番リリース・運用開始
+
+- id: deploy
+  category: 7
+  category_name: 運用
+  title: 13. デプロイ（GitHub Pages / Cloudflare）
+  content: |
+    - **GitHub Pages**: 本リポジトリの index.html をそのまま公開。カスタムドメイン設定も可能。
+    - **Cloudflare Pages**: CI/CDパイプラインと組み合わせ、自動デプロイ。
+    - **静的ホスティング**: S3 + CloudFront、Netlify、Vercel などでも配信可能。
+  additional_mermaid:
+    - type: deployment_flow
+      content: |
+        flowchart LR
+            subgraph "開発"
+                A[ローカル開発] --> B[Git コミット]
+                B --> C[GitHub へプッシュ]
+            end
+            
+            subgraph "CI/CD パイプライン"
+                C --> D[GitHub Actions]
+                D --> E{テスト成功?}
+                E -->|はい| F[静的ファイルビルド]
+                E -->|いいえ| G[問題修正]
+                G --> B
+            end
+            
+            subgraph "デプロイ"
+                F --> H[GitHub Pages]
+                F --> I[Cloudflare Pages]
+                H --> J["docs.{BASE_URL}"]
+                I --> K["{BASE_URL}"]
+            end
+            
+            subgraph "CDN/配信"
+                J --> L[グローバル CDN]
+                K --> L
+                L --> M[エンドユーザー]
+            end
+            
+            style E fill:#f9f,stroke:#333,stroke-width:2px
+
+- id: operations
+  category: 7
+  category_name: 運用
+  title: 14. 運用・保守
+  content: |
+    - **監視**: エンドポイントのヘルスチェック、レスポンスタイム計測。
+    - **ログ管理**: APIリクエストログ、エラーログの集約・分析。
+    - **インシデント対応**: 障害時の通知フロー、復旧手順。
+    - **メンテナンスウィンドウ**: 定期的なサービス更新時間の設定。
+  additional_mermaid:
+    - type: operations_flow
+      content: |
+        flowchart LR
+            subgraph "監視"
+                M1[ヘルスチェック] --> M2{ステータスOK?}
+                M2 -->|はい| M3[メトリクス記録]
+                M2 -->|いいえ| M4[チームへ通知]
+            end
+            
+            subgraph "インシデント対応"
+                M4 --> I1[問題診断]
+                I1 --> I2{緊急度?}
+                I2 -->|高| I3[即座に修正]
+                I2 -->|低| I4[修正予定]
+                I3 --> I5[ホットフィックスデプロイ]
+                I4 --> I6[定期メンテナンス]
+            end
+            
+            subgraph "メンテナンス"
+                I6 --> U1[サービス更新]
+                U1 --> U2[変更テスト]
+                U2 --> U3[ステージングデプロイ]
+                U3 --> U4{テスト成功?}
+                U4 -->|はい| U5[本番デプロイ]
+                U4 -->|いいえ| U6[ロールバック]
+                U6 --> U2
+            end
+            
+            style I2 fill:#ff9,stroke:#333,stroke-width:2px
+    - type: extension_flow
+      content: |
+        flowchart LR
+            A[新規サービス要求] --> B[API評価]
+            B --> C{互換性あり?}
+            C -->|いいえ| D[アダプター作成]
+            C -->|はい| E[エンドポイント定義]
+            D --> E
+            E --> F[テスト実装]
+            F --> G[ドキュメント更新]
+            G --> H[リリース]
+            H --> I[利用者へ通知]
+
+- id: acceptance
+  category: 3
+  category_name: 要件
+  title: 15. 受入基準
+  content: |
+    - **基本エンドポイント**: 全カテゴリの基本エンドポイントが動作すること。
+    - **認証機能**: Bearer Tokenまたは同等の認証が有効であること。
+    - **ドキュメント**: 本HTMLがGitHub Pagesで正常表示されること。
+    - **レスポンスタイム**: 95%パーセンタイルが3秒以内。
+    - **エラーハンドリング**: 適切なエラーメッセージが返されること。
+
+- id: appendix
+  category: 8
+  category_name: 付録
+  title: 16. 付録
+  content: プレースホルダ（{BASE_URL}、<TOKEN> など）は環境に合わせて置換してください。実エンドポイント/仕様は導入時の合意に基づき最新へ更新します。

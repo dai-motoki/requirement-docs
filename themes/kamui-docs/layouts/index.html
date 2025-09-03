@@ -1,0 +1,87 @@
+{{ define "main" }}
+  <h1 class="doc-title">{{ .Site.Title }}</h1>
+  <div class="doc-meta">{{ .Site.Params.description }}</div>
+  
+  <!-- ヒーロー画像 -->
+  {{ if .Params.hero_image }}
+  <div class="hero" id="docHero">
+    <img src="{{ .Params.hero_image }}" alt="{{ .Params.hero_alt | default "Hero Image" }}">
+  </div>
+  {{ end }}
+  
+  <!-- 概要セクション -->
+  {{ if .Params.overview }}
+  <div class="section-image">
+    <img src="{{ .Params.overview.image }}" alt="{{ .Params.overview.alt }}">
+  </div>
+  {{ end }}
+  
+  <!-- コンテンツセクション -->
+  {{ range .Site.Data.sections }}
+  <section class="doc-section" id="{{ .id }}" data-cat="{{ .category }}" data-cat-name="{{ .category_name }}">
+    <h2>{{ .title }}</h2>
+    
+    {{ if .content }}
+      {{ .content | markdownify }}
+    {{ end }}
+    
+    {{ if .table }}
+      {{ partial "table" .table }}
+    {{ end }}
+    
+    {{ if .dynamic_table }}
+      {{ partial "dynamic-table" . }}
+    {{ end }}
+    
+    {{ if .flow_diagram }}
+      {{ partial "flow-diagram" . }}
+    {{ end }}
+    
+    {{ if .mcp_section }}
+      {{ partial "mcp-section" . }}
+    {{ end }}
+    
+    {{ if .dynamic_cards }}
+      {{ partial "dynamic-cards" . }}
+    {{ end }}
+    
+    {{ if .images }}
+      {{ partial "image-grid" .images }}
+    {{ end }}
+    
+    {{ if .mermaid }}
+      {{ partial "mermaid" .mermaid }}
+    {{ end }}
+    
+    {{ if .gantt }}
+      {{ partial "gantt" . }}
+    {{ end }}
+    
+    {{ if .additional_mermaid }}
+      {{ range .additional_mermaid }}
+        {{ partial "mermaid-with-caption" . }}
+      {{ end }}
+    {{ end }}
+    
+    {{ if .code }}
+      {{ partial "code" .code }}
+    {{ end }}
+    
+    {{ if .cards }}
+      {{ partial "cards" .cards }}
+    {{ end }}
+    
+    {{ if .design_specs }}
+      {{ partial "design-specs" .design_specs }}
+    {{ end }}
+    
+    {{ if .additional_content }}
+      {{ .additional_content | markdownify }}
+    {{ end }}
+    
+    {{ if .client_samples }}
+      {{ partial "client-samples" .client_samples }}
+    {{ end }}
+  </section>
+  {{ end }}
+{{ end }}

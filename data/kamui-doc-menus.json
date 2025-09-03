@@ -1,6 +1,5 @@
 [
   { "id": "home", "label": "ホーム", "type": "menu", "path": "/", "parentId": null, "order": 0, "description": "KAMUI CODE ドキュメントのホーム" },
-  { "id": "lp", "label": "LP", "type": "menu", "path": "/lp", "parentId": null, "order": 0.1, "description": "ランディングページ" },
   { "id": "welcome", "label": "はじめまして", "type": "menu", "path": "/welcome", "parentId": null, "order": 0.2, "description": "初めての方向けの案内" },
 
   { "id": "mcp-playlist", "label": "MCPプレイリスト", "type": "group", "path": "/playlist", "parentId": null, "order": 1, "description": "MCPサーバーURLのプレイリスト（最上位）" },
